@@ -1,0 +1,39 @@
+{
+    "cSpell.userWords": [
+        "keras",
+        "mnist",
+        "astype",
+        "uncompiled",
+        "pyplot",
+        "ndarray",
+        "imshow",
+        "cmap",
+        "tensorflow"
+    ],
+    "python.pythonPath": "venv\\Scripts\\python.exe",
+    "jupyter.notebookFileRoot": "${workspaceFolder}",
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/__pycache__": true,
+        "**/.mypy_cache": true
+    },
+    "python.linting.flake8Enabled": false,
+    "python.linting.mypyEnabled": true,
+    "python.linting.enabled": true,
+    "cSpell.words": [
+        "Crossentropy",
+        "matplotlib",
+        "printoptions",
+        "relu",
+        "softmax",
+        "xlabel",
+        "xticks",
+        "ylim",
+        "yticks"
+    ],
+}
