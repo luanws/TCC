@@ -1,5 +1,5 @@
 import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import GeometricFigureList from '../../components/List/GeometricFigureList'
 import { GeometricFigure } from '../../models/geometric-figure'
 import { AppStackParamList } from '../../routes/app.routes'
@@ -13,16 +13,25 @@ const ShowDatasetScreen: React.FC = () => {
 
   useFocusEffect(useCallback(() => {
     GeometricFigureService.getAllGeometricFigures().then(setGeometricFigures)
+    deleteGeometricFiguresIfImageIsNotFound()
+    deleteImageIfDataIsNotFound()
   }, []))
 
-  useEffect(() => {
-    deleteGeometricFiguresIfImageNotFound()
-  }, [geometricFigures])
-
-  async function deleteGeometricFiguresIfImageNotFound() {
+  async function deleteGeometricFiguresIfImageIsNotFound() {
     const updatedGeometricFigures = []
     for (let geometricFigure of geometricFigures) {
-      const deleted = await GeometricFigureService.deleteDataIfImageIfNotFound(geometricFigure)
+      const deleted = await GeometricFigureService.deleteDataIfImageIsNotFound(geometricFigure)
+      if (!deleted) updatedGeometricFigures.push(geometricFigure)
+    }
+    if (updatedGeometricFigures.length !== geometricFigures.length) {
+      setGeometricFigures(updatedGeometricFigures)
+    }
+  }
+
+  async function deleteImageIfDataIsNotFound() {
+    const updatedGeometricFigures = []
+    for (let geometricFigure of geometricFigures) {
+      const deleted = await GeometricFigureService.deleteImageIfDataIsNotFound(geometricFigure.filename)
       if (!deleted) updatedGeometricFigures.push(geometricFigure)
     }
     if (updatedGeometricFigures.length !== geometricFigures.length) {

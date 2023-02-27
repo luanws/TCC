@@ -31,6 +31,22 @@ export namespace GeometricFigureDAO {
         })
     }
 
+    export async function getGeometricFigureByFilename(filename: string): Promise<GeometricFigure> {
+        return new Promise<GeometricFigure>((resolve, reject) => {
+            db.transaction(tx => {
+                tx.executeSql(`
+                    SELECT * FROM geometric_figures WHERE image_uri = ?;
+                `, [filename], (_, { rows: { _array } }) => {
+                    const row = _array[0]
+                    const { type, is_failed, image_uri, id } = row
+                    const isFailed = is_failed === 1
+                    const geometricFigure = { type, isFailed, filename: image_uri, id }
+                    resolve(geometricFigure)
+                })
+            }, reject)
+        })
+    }
+
     export async function deleteGeometricFigure(geometricFigureId: number) {
         return new Promise<void>((resolve, reject) => {
             db.transaction(tx => {
