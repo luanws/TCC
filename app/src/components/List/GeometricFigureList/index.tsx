@@ -1,17 +1,17 @@
 import React from 'react'
 import { FlatList } from 'react-native'
-import { GeometricFigureWithImage } from '../../../models/geometric-figure'
+import { GeometricFigure } from '../../../models/geometric-figure'
 import GeometricFigureCell from '../../Cell/GeometricFigureCell'
 
 interface Props {
-  geometricFigures: GeometricFigureWithImage[]
-  onPress?(geometricFigure: GeometricFigureWithImage): void
+  geometricFigures: GeometricFigure[]
+  onPress?(geometricFigure: GeometricFigure): void
 }
 
 const GeometricFigureList: React.FC<Props> = (props) => {
   const { geometricFigures, onPress } = props
 
-  const renderItem = (geometricFigure: GeometricFigureWithImage, index: number) => (
+  const renderItem = (geometricFigure: GeometricFigure, index: number) => (
     <GeometricFigureCell
       key={geometricFigure.filename}
       geometricFigure={geometricFigure}

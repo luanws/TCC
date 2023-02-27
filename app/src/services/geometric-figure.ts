@@ -1,6 +1,6 @@
 import * as MediaLibrary from 'expo-media-library'
 import { GeometricFigureDAO } from '../database/dao/geometric-figures'
-import { GeometricFigure, GeometricFigureWithImage } from '../models/geometric-figure'
+import { GeometricFigure, NewGeometricFigure } from '../models/geometric-figure'
 
 export namespace GeometricFigureService {
     const ALBUM_NAME = 'Geometric Figures'
@@ -10,7 +10,7 @@ export namespace GeometricFigureService {
         if (!granted) throw new Error('Permission to access media library is required!')
     }
 
-    export async function saveGeometricFigure(geometricFigure: GeometricFigure, uri: string) {
+    export async function saveGeometricFigure(newGeometricFigure: NewGeometricFigure, uri: string) {
         assertMediaPermissions()
         const asset = await MediaLibrary.createAssetAsync(uri)
         const album = await MediaLibrary.getAlbumAsync(ALBUM_NAME)
@@ -20,10 +20,10 @@ export namespace GeometricFigureService {
             await MediaLibrary.createAlbumAsync(ALBUM_NAME, asset, true)
         }
         const filename = asset.filename
-        await GeometricFigureDAO.create({ ...geometricFigure, filename })
+        await GeometricFigureDAO.create(newGeometricFigure, filename)
     }
 
-    export async function getAllGeometricFigures(): Promise<GeometricFigureWithImage[]> {
+    export async function getAllGeometricFigures(): Promise<GeometricFigure[]> {
         return await GeometricFigureDAO.getAll()
     }
 
@@ -36,7 +36,7 @@ export namespace GeometricFigureService {
         return asset.uri
     }
 
-    export function getImageFromGeometricFigure(geometricFigure: GeometricFigure) {
+    export function getImageFromGeometricFigure(geometricFigure: NewGeometricFigure) {
         if (geometricFigure.isFailed) {
             switch (geometricFigure.type) {
                 case 'circle':
@@ -56,5 +56,15 @@ export namespace GeometricFigureService {
                     return require('../assets/img/shapes/triangle.png')
             }
         }
+    }
+
+    export async function deleteGeometricFigure(geometricFigure: GeometricFigure) {
+        assertMediaPermissions()
+        const album = await MediaLibrary.getAlbumAsync(ALBUM_NAME)
+        const { assets } = await MediaLibrary.getAssetsAsync({ album })
+        const asset = assets.find(asset => asset.filename === geometricFigure.filename)
+        if (!asset) throw new Error('Asset not found!')
+        await MediaLibrary.deleteAssetsAsync([asset])
+        await GeometricFigureDAO.deleteGeometricFigure(geometricFigure.id)
     }
 }

@@ -1,7 +1,7 @@
 import { Camera } from 'expo-camera'
 import { CameraType } from 'expo-camera/build/Camera.types'
 import React, { useEffect, useRef } from 'react'
-import { GeometricFigure } from '../../models/geometric-figure'
+import { NewGeometricFigure } from '../../models/geometric-figure'
 import { GeometricFigureService } from '../../services/geometric-figure'
 import Button from './Button'
 import { BottomBar, BottomBarRow, CameraContainer, CameraStyled, Container } from './styles'
@@ -15,7 +15,7 @@ const CreateDatasetScreen: React.FC = () => {
     requestPermission()
   }, [])
 
-  async function handleTakePicture(geometricFigure: GeometricFigure) {
+  async function handleTakePicture(geometricFigure: NewGeometricFigure) {
     if (cameraRef.current) {
       const photo = await cameraRef.current.takePictureAsync({ quality: 1 })
       await GeometricFigureService.saveGeometricFigure(geometricFigure, photo.uri)

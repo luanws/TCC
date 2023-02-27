@@ -1,11 +1,11 @@
 import React, { memo, useEffect, useState } from 'react'
-import { GeometricFigureWithImage } from '../../../models/geometric-figure'
+import { GeometricFigure } from '../../../models/geometric-figure'
 import { GeometricFigureService } from '../../../services/geometric-figure'
 import { CategoryImage, Container, ImageStyled, Space } from './styles'
 
 interface Props {
-  geometricFigure: GeometricFigureWithImage
-  onPress?(geometricFigure: GeometricFigureWithImage): void
+  geometricFigure: GeometricFigure
+  onPress?(geometricFigure: GeometricFigure): void
 }
 
 const GeometricFigureCell: React.FC<Props> = (props) => {

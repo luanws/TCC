@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React from 'react'
 import { useTheme } from '../hooks/theme'
-import { GeometricFigureWithImage } from '../models/geometric-figure'
+import { GeometricFigure } from '../models/geometric-figure'
 import CreateDatasetScreen from '../screens/CreateDatasetScreen'
 import HomeScreen from '../screens/HomeScreen'
 import SettingsScreen from '../screens/SettingsScreen'
@@ -13,7 +13,7 @@ export type AppStackParamList = {
   Settings: undefined
   CreateDataset: undefined
   ShowDataset: undefined
-  ShowGeometricFigure: GeometricFigureWithImage
+  ShowGeometricFigure: GeometricFigure
 }
 
 const App = createNativeStackNavigator<AppStackParamList>()

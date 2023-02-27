@@ -1,23 +1,28 @@
-import { useRoute } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
 import { AppStackParamList } from '../../routes/app.routes'
 import { GeometricFigureService } from '../../services/geometric-figure'
 
-import { Container, ImageStyled, JSONContainer, JSONText, Scroll, Space } from './styles'
+import { Container, DeleteButton, DeleteButtonText, ImageStyled, JSONContainer, JSONText, Scroll, Space } from './styles'
 
 const ShowGeometricFigure: React.FC = () => {
   const route = useRoute()
+  const navigation = useNavigation()
 
   const [uri, setUri] = useState<string | undefined>(undefined)
 
-  const geometricFigureWithImage = route.params as AppStackParamList['ShowGeometricFigure']
-  const geometricFigure = { ...geometricFigureWithImage, filename: undefined }
-  const { filename } = geometricFigureWithImage
+  const geometricFigure = route.params as AppStackParamList['ShowGeometricFigure']
+  const { filename } = geometricFigure
   const json = JSON.stringify(geometricFigure, null, 4)
 
   useEffect(() => {
     GeometricFigureService.filenameToUri(filename).then(setUri)
   }, [])
+
+  async function handleDelete() {
+    await GeometricFigureService.deleteGeometricFigure(geometricFigure)
+    navigation.goBack()
+  }
 
   return (
     <Scroll>
@@ -27,6 +32,10 @@ const ShowGeometricFigure: React.FC = () => {
         <JSONContainer>
           <JSONText>{json}</JSONText>
         </JSONContainer>
+        <Space />
+        <DeleteButton activeOpacity={0.7} onPress={handleDelete}>
+          <DeleteButtonText>Deletar</DeleteButtonText>
+        </DeleteButton>
       </Container>
     </Scroll>
   )
