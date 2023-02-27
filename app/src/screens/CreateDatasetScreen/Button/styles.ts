@@ -1,4 +1,4 @@
-import { TouchableOpacity } from "react-native"
+import { Image, TouchableOpacity } from "react-native"
 import Icon from "../../../components/Icon"
 import { styled } from "../../../hooks/theme"
 
@@ -13,4 +13,9 @@ export const Container = styled(TouchableOpacity)`
 
 export const ButtonIcon = styled(Icon)`
     color: #00b800;
+`
+
+export const ButtonImage = styled(Image)`
+    width: 32px;
+    height: 32px;
 `

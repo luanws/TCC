@@ -1,20 +1,24 @@
 import React from 'react'
-import { ButtonIcon, Container } from './styles'
+import { ImageSourcePropType } from 'react-native'
+import { ButtonImage, Container } from './styles'
 
 interface Props {
-  icon: string
   onPress?(): void
+  image: ImageSourcePropType
 }
 
 const Button: React.FC<Props> = (props) => {
-  const { icon, onPress } = props
+  const { image, onPress } = props
 
   return (
     <Container
       activeOpacity={0.7}
       onPress={onPress}
     >
-      <ButtonIcon icon={icon} size={32} />
+      <ButtonImage
+        source={image}
+        resizeMode='stretch'
+      />
     </Container>
   )
 }

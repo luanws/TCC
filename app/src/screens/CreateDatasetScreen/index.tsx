@@ -20,12 +20,12 @@ const CreateDatasetScreen: React.FC<Props> = (props) => {
         <CameraContainer>
           <BottomBar>
             <BottomBarRow>
-              <Button icon='MaterialCommunityIcons/square' />
-              <Button icon='MaterialCommunityIcons/triangle' />
-              <Button icon='MaterialCommunityIcons/checkbox-blank-circle' />
-              <Button icon='MaterialCommunityIcons/square' />
-              <Button icon='MaterialCommunityIcons/triangle' />
-              <Button icon='MaterialCommunityIcons/checkbox-blank-circle' />
+              <Button image={require('../../assets/img/shapes/square.png')} />
+              <Button image={require('../../assets/img/shapes/triangle.png')} />
+              <Button image={require('../../assets/img/shapes/circle.png')} />
+              <Button image={require('../../assets/img/shapes/failed-square.png')} />
+              <Button image={require('../../assets/img/shapes/failed-triangle.png')} />
+              <Button image={require('../../assets/img/shapes/failed-circle.png')} />
             </BottomBarRow>
           </BottomBar>
         </CameraContainer>
