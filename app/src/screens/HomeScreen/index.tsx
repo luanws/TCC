@@ -4,10 +4,7 @@ import { AppStackParamList } from '../../routes/app.routes'
 import NavigateButton from './NavigateButton'
 import { Container, NavigateButtonsContainer, Scroll } from './styles'
 
-interface Props {
-}
-
-const HomeScreen: React.FC<Props> = (props) => {
+const HomeScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp<AppStackParamList>>()
 
   return (
@@ -22,6 +19,7 @@ const HomeScreen: React.FC<Props> = (props) => {
           <NavigateButton
             icon='FontAwesome/database'
             title='Visualização do dataset'
+            onPress={() => navigation.navigate('ShowDataset')}
           />
           <NavigateButton
             icon='MaterialIcons/settings'

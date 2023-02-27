@@ -6,10 +6,7 @@ import { GeometricFigureService } from '../../services/geometric-figure'
 import Button from './Button'
 import { BottomBar, BottomBarRow, CameraContainer, CameraStyled, Container } from './styles'
 
-interface Props {
-}
-
-const CreateDatasetScreen: React.FC<Props> = (props) => {
+const CreateDatasetScreen: React.FC = () => {
   const [permission, requestPermission] = Camera.useCameraPermissions()
 
   const cameraRef = useRef<Camera>(null)
