@@ -1,5 +1,5 @@
 import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import GeometricFigureList from '../../components/List/GeometricFigureList'
 import { GeometricFigure } from '../../models/geometric-figure'
 import { AppStackParamList } from '../../routes/app.routes'
@@ -14,6 +14,21 @@ const ShowDatasetScreen: React.FC = () => {
   useFocusEffect(useCallback(() => {
     GeometricFigureService.getAllGeometricFigures().then(setGeometricFigures)
   }, []))
+
+  useEffect(() => {
+    deleteGeometricFiguresIfImageNotFound()
+  }, [geometricFigures])
+
+  async function deleteGeometricFiguresIfImageNotFound() {
+    const updatedGeometricFigures = []
+    for (let geometricFigure of geometricFigures) {
+      const deleted = await GeometricFigureService.deleteDataIfImageIfNotFound(geometricFigure)
+      if (!deleted) updatedGeometricFigures.push(geometricFigure)
+    }
+    if (updatedGeometricFigures.length !== geometricFigures.length) {
+      setGeometricFigures(updatedGeometricFigures)
+    }
+  }
 
   function handleGeometricFigurePress(geometricFigure: GeometricFigure) {
     navigation.navigate('ShowGeometricFigure', geometricFigure)

@@ -13,7 +13,7 @@ const GeometricFigureList: React.FC<Props> = (props) => {
 
   const renderItem = (geometricFigure: GeometricFigure, index: number) => (
     <GeometricFigureCell
-      key={geometricFigure.filename}
+      key={geometricFigure.id}
       geometricFigure={geometricFigure}
       onPress={onPress}
     />
@@ -22,7 +22,7 @@ const GeometricFigureList: React.FC<Props> = (props) => {
   return (
     <FlatList
       data={geometricFigures}
-      keyExtractor={geometricFigure => geometricFigure.filename.toString()}
+      keyExtractor={geometricFigure => geometricFigure.id.toString()}
       renderItem={props => renderItem(props.item, props.index)}
     />
   )

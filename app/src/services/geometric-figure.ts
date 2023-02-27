@@ -67,4 +67,16 @@ export namespace GeometricFigureService {
         await MediaLibrary.deleteAssetsAsync([asset])
         await GeometricFigureDAO.deleteGeometricFigure(geometricFigure.id)
     }
+
+    export async function deleteDataIfImageIfNotFound(geometricFigure: GeometricFigure): Promise<boolean> {
+        assertMediaPermissions()
+        const album = await MediaLibrary.getAlbumAsync(ALBUM_NAME)
+        const { assets } = await MediaLibrary.getAssetsAsync({ album })
+        const asset = assets.find(asset => asset.filename === geometricFigure.filename)
+        if (!asset) {
+            await GeometricFigureDAO.deleteGeometricFigure(geometricFigure.id)
+            return true
+        }
+        return false
+    }
 }
