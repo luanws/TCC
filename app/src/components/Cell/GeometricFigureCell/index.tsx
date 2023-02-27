@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import { GeometricFigureWithImage } from '../../../models/geometric-figure'
 import { GeometricFigureService } from '../../../services/geometric-figure'
 import { CategoryImage, Container, ImageStyled, Space } from './styles'
@@ -12,7 +12,7 @@ const GeometricFigureCell: React.FC<Props> = (props) => {
   const { geometricFigure, onPress } = props
   const { filename } = geometricFigure
 
-  const [uri, setUri] = React.useState<string | undefined>(undefined)
+  const [uri, setUri] = useState<string | undefined>(undefined)
 
   useEffect(() => {
     GeometricFigureService.filenameToUri(filename).then(setUri)
