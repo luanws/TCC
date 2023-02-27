@@ -1,6 +1,6 @@
 import React from 'react'
 import { createContext, PropsWithChildren, useContext } from "react"
-import { ThemeTypes } from '../../utils/theme/theme.model'
+import { ThemeTypes } from '../../theme/theme.model'
 import usePersistedState from "../persisted-state"
 
 interface SettingsContextData {

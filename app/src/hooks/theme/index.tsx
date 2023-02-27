@@ -1,11 +1,11 @@
 import React, { PropsWithChildren } from 'react'
-import { Theme } from '../../utils/theme/theme.model'
+import { Theme } from '../../theme/theme.model'
 import baseStyled, {
   ThemeProvider as ThemeProviderStyledComponents,
   ThemedStyledInterface,
   useTheme as useThemeStyledComponents
 } from 'styled-components'
-import { themes } from '../../utils/theme/themes'
+import { themes } from '../../theme/themes'
 import { useSettings } from '../settings'
 
 export const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
