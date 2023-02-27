@@ -17,6 +17,7 @@ const HomeScreen: React.FC<Props> = (props) => {
           <NavigateButton
             icon='FontAwesome/camera'
             title='Criação do dataset'
+            onPress={() => navigation.navigate('CreateDataset')}
           />
           <NavigateButton
             icon='FontAwesome/database'
