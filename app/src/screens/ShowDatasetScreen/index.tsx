@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import GeometricFigureCell from '../../components/Cell/GeometricFigureCell'
+import GeometricFigureList from '../../components/List/GeometricFigureList'
 import { GeometricFigureWithImage } from '../../models/geometric-figure'
 import { GeometricFigureService } from '../../services/geometric-figure'
 import { Container } from './styles'
@@ -13,9 +13,9 @@ const ShowDatasetScreen: React.FC = () => {
 
   return (
     <Container>
-      {geometricFigures.map((geometricFigure) => (
-        <GeometricFigureCell key={geometricFigure.filename} geometricFigure={geometricFigure} />
-      ))}
+      <GeometricFigureList
+        geometricFigures={geometricFigures}
+      />
     </Container>
   )
 }
