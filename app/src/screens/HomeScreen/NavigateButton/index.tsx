@@ -1,7 +1,7 @@
 import React from 'react'
 import Icon from '../../../components/Icon'
 import { useTheme } from '../../../hooks/theme'
-import { Button, TitleText, Container } from './styles'
+import { Button, Container, TitleText } from './styles'
 
 interface Props {
   icon: string
@@ -23,7 +23,7 @@ const NavigateButton: React.FC<Props> = (props) => {
         <Icon
           icon={icon}
           size={32}
-          color={theme.colors.primary}
+          color={theme.colors.icon}
         />
         <TitleText>{title}</TitleText>
       </Button>

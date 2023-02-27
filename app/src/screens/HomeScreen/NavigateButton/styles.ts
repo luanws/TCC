@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity, Dimensions, View } from "react-native"
+import { Dimensions, Text, TouchableOpacity, View } from "react-native"
 import { styled } from "../../../hooks/theme"
 
 const numberOfColumns = 3
@@ -23,10 +23,12 @@ export const Button = styled(TouchableOpacity)`
     background-color: ${({ theme }) => theme.colors.containerBackground};
     align-items: center;
     justify-content: center;
+    padding: 8px;
 `
 
 export const TitleText = styled(Text)`
-    color: ${({ theme }) => theme.colors.primary};
+    color: ${({ theme }) => theme.colors.text1};
     text-align: center;
     margin-top: 4px;
+    font-weight: 500;
 `

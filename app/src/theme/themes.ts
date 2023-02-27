@@ -1,8 +1,8 @@
 import { Theme, ThemeTypes } from "./theme.model"
 
 const defaultColors = {
-    primary: '#0487b2',
-    primaryLight: '#07c1ff',
+    primary: '#47c541',
+    primaryLight: '#5bff51',
     primaryDark: '#024c65',
 
     accent: '#ffb900',
@@ -14,6 +14,8 @@ export const themes: { [key in ThemeTypes]: Theme } = {
     light: {
         colors: {
             ...defaultColors,
+
+            primary: '#1c9516',
 
             background: '#F4F4F4',
             containerBackground: '#fff',
@@ -67,6 +69,8 @@ export const themes: { [key in ThemeTypes]: Theme } = {
     dark: {
         colors: {
             ...defaultColors,
+
+            primary: '#00da02',
 
             background: '#1F1E1F',
             containerBackground: '#2E2E34',

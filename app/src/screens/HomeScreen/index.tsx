@@ -19,6 +19,10 @@ const HomeScreen: React.FC<Props> = (props) => {
             title='Criação do dataset'
           />
           <NavigateButton
+            icon='FontAwesome/database'
+            title='Visualização do dataset'
+          />
+          <NavigateButton
             icon='MaterialIcons/settings'
             title='Configurações'
             onPress={() => navigation.navigate('Settings')}
