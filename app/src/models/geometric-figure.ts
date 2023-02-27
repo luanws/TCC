@@ -3,3 +3,7 @@ export interface GeometricFigure {
     type: GeometricFigureType
     isFailed: boolean
 }
+
+export interface GeometricFigureWithImage extends GeometricFigure {
+    filename: string
+}

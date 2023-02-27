@@ -1,8 +1,8 @@
 import { Camera } from 'expo-camera'
 import { CameraType } from 'expo-camera/build/Camera.types'
-import * as FileSystem from 'expo-file-system'
 import React, { useEffect, useRef } from 'react'
 import { GeometricFigure } from '../../models/geometric-figure'
+import { GeometricFigureService } from '../../services/geometric-figure'
 import Button from './Button'
 import { BottomBar, BottomBarRow, CameraContainer, CameraStyled, Container } from './styles'
 
@@ -18,22 +18,10 @@ const CreateDatasetScreen: React.FC<Props> = (props) => {
     requestPermission()
   }, [])
 
-  async function savePicture(geometricFigure: GeometricFigure, uri: string) {
-    savePictureToDownloads(uri)
-  }
-
-  async function savePictureToDownloads(uri: string) {
-    const filename = new Date().getTime().toString()
-    const fileUri = FileSystem.documentDirectory!! + filename
-    await FileSystem.copyAsync({ from: uri, to: fileUri })
-    console.debug(`Imagem salva em ${fileUri}`)
-  }
-
   async function handleTakePicture(geometricFigure: GeometricFigure) {
-    console.debug(FileSystem.documentDirectory)
     if (cameraRef.current) {
       const photo = await cameraRef.current.takePictureAsync({ quality: 1 })
-      savePicture(geometricFigure, photo.uri)
+      await GeometricFigureService.saveGeometricFigure(geometricFigure, photo.uri)
     }
   }
 

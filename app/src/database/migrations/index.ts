@@ -1,3 +1,4 @@
+import { createGeometricFigureTable } from "./create-geometric-figure-table"
 
 export interface Migration {
     name: string
@@ -20,4 +21,5 @@ export async function rollbackMigrations() {
 }
 
 const migrations: Migration[] = [
+    createGeometricFigureTable
 ]
