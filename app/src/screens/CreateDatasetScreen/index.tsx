@@ -1,6 +1,7 @@
 import { Camera } from 'expo-camera'
 import { CameraType } from 'expo-camera/build/Camera.types'
 import React, { useEffect, useRef } from 'react'
+import { ToastAndroid } from 'react-native'
 import { NewGeometricFigure } from '../../models/geometric-figure'
 import { GeometricFigureService } from '../../services/geometric-figure'
 import Button from './Button'
@@ -19,6 +20,7 @@ const CreateDatasetScreen: React.FC = () => {
     if (cameraRef.current) {
       const photo = await cameraRef.current.takePictureAsync({ quality: 1 })
       await GeometricFigureService.saveGeometricFigure(geometricFigure, photo.uri)
+      ToastAndroid.show('Imagem salva com sucesso!', ToastAndroid.SHORT)
     }
   }
 
