@@ -6,6 +6,21 @@ export namespace Assets {
         if (!granted) throw new Error('Permission to access media library is required!')
     }
 
+    export async function getAssets(albumName: string): Promise<MediaLibrary.Asset[]> {
+        assertMediaPermissions()
+        const album = await MediaLibrary.getAlbumAsync(albumName)
+        const { assets } = await MediaLibrary.getAssetsAsync({ album })
+        return assets
+    }
+
+    export async function getAssetsByFilenames(albumName: string, filenames: string[]): Promise<MediaLibrary.Asset[]> {
+        assertMediaPermissions()
+        const album = await MediaLibrary.getAlbumAsync(albumName)
+        const { assets } = await MediaLibrary.getAssetsAsync({ album })
+        const assetsByFilenames = assets.filter(asset => filenames.includes(asset.filename))
+        return assetsByFilenames
+    }
+
     export async function getAssetByFilename(albumName: string, filename: string): Promise<MediaLibrary.Asset | undefined> {
         assertMediaPermissions()
         const album = await MediaLibrary.getAlbumAsync(albumName)
@@ -21,21 +36,12 @@ export namespace Assets {
         return asset.uri
     }
 
-    export async function getAlbum(albumName: string): Promise<MediaLibrary.Album> {
-        assertMediaPermissions()
-        let album = await MediaLibrary.getAlbumAsync(albumName)
-        if (!album) {
-            await MediaLibrary.createAlbumAsync(albumName, undefined, false)
-            album = await MediaLibrary.getAlbumAsync(albumName)
-        }
-        return album
-    }
-
     export async function createAssetFromUri(albumName: string, uri: string): Promise<MediaLibrary.Asset> {
         assertMediaPermissions()
-        const album = await getAlbum(albumName)
         const asset = await MediaLibrary.createAssetAsync(uri)
-        await MediaLibrary.addAssetsToAlbumAsync([asset], album, true)
+        const album = await MediaLibrary.getAlbumAsync(albumName)
+        if (album) await MediaLibrary.addAssetsToAlbumAsync([asset], album, true)
+        else await MediaLibrary.createAlbumAsync(albumName, asset, false)
         return asset
     }
 
@@ -44,5 +50,10 @@ export namespace Assets {
         const asset = await getAssetByFilename(albumName, filename)
         if (!asset) throw new Error('Asset not found!')
         await MediaLibrary.deleteAssetsAsync([asset])
+    }
+
+    export async function deleteAssets(assets: MediaLibrary.Asset[]) {
+        assertMediaPermissions()
+        await MediaLibrary.deleteAssetsAsync(assets)
     }
 }

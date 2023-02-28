@@ -56,4 +56,14 @@ export namespace GeometricFigureDAO {
             }, reject, resolve)
         })
     }
+
+    export async function deleteGeometricFigures(geometricFigureIds: number[]) {
+        return new Promise<void>((resolve, reject) => {
+            db.transaction(tx => {
+                tx.executeSql(`
+                    DELETE FROM geometric_figures WHERE id IN (${geometricFigureIds.join(',')});
+                `)
+            }, reject, resolve)
+        })
+    }
 }

@@ -38,21 +38,23 @@ export namespace GeometricFigureService {
         await GeometricFigureDAO.deleteGeometricFigure(geometricFigure.id)
     }
 
-    export async function deleteDataIfImageIsNotFound(geometricFigure: GeometricFigure): Promise<boolean> {
-        const asset = await Assets.getAssetByFilename(ALBUM_NAME, geometricFigure.filename)
-        if (!asset) {
-            await GeometricFigureDAO.deleteGeometricFigure(geometricFigure.id)
-            return true
-        }
-        return false
+    export async function deleteDataIfImageIsNotFound(geometricFigures: GeometricFigure[]): Promise<number> {
+        const allAssets = await Assets.getAssets(ALBUM_NAME)
+        const extraGeometricFigures = geometricFigures.filter(geoFigure => {
+            return !allAssets.find(asset => asset.filename === geoFigure.filename)
+        })
+        await GeometricFigureDAO.deleteGeometricFigures(extraGeometricFigures.map(geoFigure => geoFigure.id))
+        const diference = extraGeometricFigures.length
+        return diference
     }
 
-    export async function deleteImageIfDataIsNotFound(filename: string): Promise<boolean> {
-        const geometricFigure = await GeometricFigureDAO.getGeometricFigureByFilename(filename)
-        if (!geometricFigure) {
-            await Assets.deleteAssetByFilename(ALBUM_NAME, filename)
-            return true
-        }
-        return false
+    export async function deleteImageIfDataIsNotFound(filenames: string[]): Promise<number> {
+        const allAssets = await Assets.getAssets(ALBUM_NAME)
+        const assets = await Assets.getAssetsByFilenames(ALBUM_NAME, filenames)
+        const assetsFilenames = assets.map(asset => asset.filename)
+        const extraAssets = allAssets.filter(asset => !assetsFilenames.includes(asset.filename))
+        await Assets.deleteAssets(extraAssets)
+        const diference = extraAssets.length
+        return diference
     }
 }

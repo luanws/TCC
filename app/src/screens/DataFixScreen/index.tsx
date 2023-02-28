@@ -13,29 +13,22 @@ const DataFixScreen: React.FC = () => {
   }, []))
 
   async function deleteDataIfImageIsNotFound() {
-    const updatedGeometricFigures = []
-    for (let geometricFigure of geometricFigures) {
-      const deleted = await GeometricFigureService.deleteDataIfImageIsNotFound(geometricFigure)
-      if (!deleted) updatedGeometricFigures.push(geometricFigure)
-    }
-    handleFixComplete(geometricFigures, updatedGeometricFigures)
+    const diference = await GeometricFigureService.deleteDataIfImageIsNotFound(geometricFigures)
+    handleFixComplete(diference)
   }
 
   async function deleteImageIfDataIsNotFound() {
-    const updatedGeometricFigures = []
-    for (let geometricFigure of geometricFigures) {
-      const deleted = await GeometricFigureService.deleteImageIfDataIsNotFound(geometricFigure.filename)
-      if (!deleted) updatedGeometricFigures.push(geometricFigure)
-    }
-    handleFixComplete(geometricFigures, updatedGeometricFigures)
+    const diference = await GeometricFigureService.deleteImageIfDataIsNotFound(
+      geometricFigures.map(geometricFigure => geometricFigure.filename)
+    )
+    handleFixComplete(diference)
   }
 
-  async function handleFixComplete(oldGeometricFigures: GeometricFigure[], updatedGeometricFigures: GeometricFigure[]) {
+  async function handleFixComplete(diference: number) {
     await GeometricFigureService.getAllGeometricFigures().then(setGeometricFigures)
-    setGeometricFigures(updatedGeometricFigures)
     Alert.alert(
       'Dados corrigidos',
-      `${oldGeometricFigures.length - updatedGeometricFigures.length} dados corrigidos`
+      `${diference} dados corrigidos`
     )
   }
 
