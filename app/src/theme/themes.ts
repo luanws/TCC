@@ -70,7 +70,7 @@ export const themes: { [key in ThemeTypes]: Theme } = {
         colors: {
             ...defaultColors,
 
-            primary: '#00da02',
+            primary: '#099a09',
 
             background: '#1F1E1F',
             containerBackground: '#2E2E34',

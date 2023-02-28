@@ -22,6 +22,11 @@ const HomeScreen: React.FC = () => {
             onPress={() => navigation.navigate('ShowDataset')}
           />
           <NavigateButton
+            icon='MaterialCommunityIcons/auto-fix'
+            title='Corrigir dados'
+            onPress={() => navigation.navigate('DataFix')}
+          />
+          <NavigateButton
             icon='MaterialIcons/settings'
             title='Configurações'
             onPress={() => navigation.navigate('Settings')}

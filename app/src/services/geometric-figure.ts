@@ -28,10 +28,7 @@ export namespace GeometricFigureService {
     }
 
     export async function filenameToUri(filename: string): Promise<string> {
-        assertMediaPermissions()
-        const album = await MediaLibrary.getAlbumAsync(ALBUM_NAME)
-        const { assets } = await MediaLibrary.getAssetsAsync({ album })
-        const asset = assets.find(asset => asset.filename === filename)
+        const asset = await getAsset(filename)
         if (!asset) throw new Error('Asset not found!')
         return asset.uri
     }
@@ -59,16 +56,11 @@ export namespace GeometricFigureService {
     }
 
     export async function deleteGeometricFigure(geometricFigure: GeometricFigure) {
-        assertMediaPermissions()
-        const album = await MediaLibrary.getAlbumAsync(ALBUM_NAME)
-        const { assets } = await MediaLibrary.getAssetsAsync({ album })
-        const asset = assets.find(asset => asset.filename === geometricFigure.filename)
-        if (!asset) throw new Error('Asset not found!')
-        await MediaLibrary.deleteAssetsAsync([asset])
+        await deleteGeometricFigureImageFile(geometricFigure.filename)
         await GeometricFigureDAO.deleteGeometricFigure(geometricFigure.id)
     }
 
-    async function deleteImageFile(filename: string) {
+    export async function deleteGeometricFigureImageFile(filename: string) {
         assertMediaPermissions()
         const album = await MediaLibrary.getAlbumAsync(ALBUM_NAME)
         const { assets } = await MediaLibrary.getAssetsAsync({ album })
@@ -77,17 +69,16 @@ export namespace GeometricFigureService {
         await MediaLibrary.deleteAssetsAsync([asset])
     }
 
-    async function getImageFile(filename: string): Promise<MediaLibrary.Asset | undefined> {
+    async function getAsset(filename: string): Promise<MediaLibrary.Asset | undefined> {
         assertMediaPermissions()
         const album = await MediaLibrary.getAlbumAsync(ALBUM_NAME)
         const { assets } = await MediaLibrary.getAssetsAsync({ album })
         const asset = assets.find(asset => asset.filename === filename)
-        if (!asset) throw new Error('Asset not found!')
         return asset
     }
 
     export async function deleteDataIfImageIsNotFound(geometricFigure: GeometricFigure): Promise<boolean> {
-        const asset = await getImageFile(geometricFigure.filename)
+        const asset = await getAsset(geometricFigure.filename)
         if (!asset) {
             await GeometricFigureDAO.deleteGeometricFigure(geometricFigure.id)
             return true
@@ -99,7 +90,7 @@ export namespace GeometricFigureService {
         assertMediaPermissions()
         const geometricFigure = await GeometricFigureDAO.getGeometricFigureByFilename(filename)
         if (!geometricFigure) {
-            await deleteImageFile(filename)
+            await deleteGeometricFigureImageFile(filename)
             return true
         }
         return false

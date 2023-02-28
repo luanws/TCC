@@ -13,31 +13,7 @@ const ShowDatasetScreen: React.FC = () => {
 
   useFocusEffect(useCallback(() => {
     GeometricFigureService.getAllGeometricFigures().then(setGeometricFigures)
-    deleteGeometricFiguresIfImageIsNotFound()
-    deleteImageIfDataIsNotFound()
   }, []))
-
-  async function deleteGeometricFiguresIfImageIsNotFound() {
-    const updatedGeometricFigures = []
-    for (let geometricFigure of geometricFigures) {
-      const deleted = await GeometricFigureService.deleteDataIfImageIsNotFound(geometricFigure)
-      if (!deleted) updatedGeometricFigures.push(geometricFigure)
-    }
-    if (updatedGeometricFigures.length !== geometricFigures.length) {
-      setGeometricFigures(updatedGeometricFigures)
-    }
-  }
-
-  async function deleteImageIfDataIsNotFound() {
-    const updatedGeometricFigures = []
-    for (let geometricFigure of geometricFigures) {
-      const deleted = await GeometricFigureService.deleteImageIfDataIsNotFound(geometricFigure.filename)
-      if (!deleted) updatedGeometricFigures.push(geometricFigure)
-    }
-    if (updatedGeometricFigures.length !== geometricFigures.length) {
-      setGeometricFigures(updatedGeometricFigures)
-    }
-  }
 
   function handleGeometricFigurePress(geometricFigure: GeometricFigure) {
     navigation.navigate('ShowGeometricFigure', geometricFigure)
