@@ -3,7 +3,8 @@ import React from 'react'
 import { useTheme } from '../hooks/theme'
 import { GeometricFigure } from '../models/geometric-figure'
 import CreateDatasetScreen from '../screens/CreateDatasetScreen'
-import DataFixScreen from '../screens/DataFixScreen'
+import DatasetFixScreen from '../screens/DatasetFixScreen'
+import ExportDatasetScreen from '../screens/ExportDatasetScreen'
 import HomeScreen from '../screens/HomeScreen'
 import SettingsScreen from '../screens/SettingsScreen'
 import ShowDatasetScreen from '../screens/ShowDatasetScreen'
@@ -15,7 +16,8 @@ export type AppStackParamList = {
   CreateDataset: undefined
   ShowDataset: undefined
   ShowGeometricFigure: GeometricFigure
-  DataFix: undefined
+  DatasetFix: undefined
+  ExportDataset: undefined
 }
 
 const App = createNativeStackNavigator<AppStackParamList>()
@@ -41,7 +43,8 @@ const AppRoutes: React.FC = () => {
       <App.Screen component={CreateDatasetScreen} name="CreateDataset" options={{ title: 'Criação do dataset' }} />
       <App.Screen component={ShowDatasetScreen} name="ShowDataset" options={{ title: 'Visualização do dataset' }} />
       <App.Screen component={ShowGeometricFigure} name="ShowGeometricFigure" options={{ title: 'Figura geométrica' }} />
-      <App.Screen component={DataFixScreen} name="DataFix" options={{ title: 'Correção de dados' }} />
+      <App.Screen component={DatasetFixScreen} name="DatasetFix" options={{ title: 'Correção do dataset' }} />
+      <App.Screen component={ExportDatasetScreen} name="ExportDataset" options={{ title: 'Exportação do dataset' }} />
     </App.Navigator>
   )
 }

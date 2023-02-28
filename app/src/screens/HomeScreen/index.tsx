@@ -22,9 +22,14 @@ const HomeScreen: React.FC = () => {
             onPress={() => navigation.navigate('ShowDataset')}
           />
           <NavigateButton
+            icon='FontAwesome/download'
+            title='Exportação do dataset'
+            onPress={() => navigation.navigate('ExportDataset')}
+          />
+          <NavigateButton
             icon='MaterialCommunityIcons/auto-fix'
-            title='Corrigir dados'
-            onPress={() => navigation.navigate('DataFix')}
+            title='Corrigir dataset'
+            onPress={() => navigation.navigate('DatasetFix')}
           />
           <NavigateButton
             icon='MaterialIcons/settings'

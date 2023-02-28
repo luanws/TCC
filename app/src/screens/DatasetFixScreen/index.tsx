@@ -5,7 +5,7 @@ import { GeometricFigure } from '../../models/geometric-figure'
 import { GeometricFigureService } from '../../services/geometric-figure'
 import { Button, ButtonText, Container, Scroll } from './styles'
 
-const DataFixScreen: React.FC = () => {
+const DatasetFixScreen: React.FC = () => {
   const [geometricFigures, setGeometricFigures] = useState<GeometricFigure[]>([])
 
   useFocusEffect(useCallback(() => {
@@ -46,4 +46,4 @@ const DataFixScreen: React.FC = () => {
   )
 }
 
-export default DataFixScreen
+export default DatasetFixScreen
