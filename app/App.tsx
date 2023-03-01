@@ -8,10 +8,12 @@ import { DatabaseUtils } from './src/database/utils'
 import AppProvider from './src/hooks'
 import { useTheme } from './src/hooks/theme'
 import Routes from './src/routes'
+import { FirebaseUtils } from './src/utils/firebase'
 
 async function runOnStartup() {
   await Migrations.runMigrations()
   await DatabaseUtils.showTables()
+  FirebaseUtils.initialize()
 }
 
 function Wrapper() {

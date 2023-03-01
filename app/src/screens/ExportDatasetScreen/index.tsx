@@ -1,15 +1,18 @@
 import React from 'react'
+import { ToastAndroid } from 'react-native'
+import { GeometricFigureService } from '../../services/geometric-figure'
 import { Button, ButtonText, Container } from './styles'
 
 const ExportDatasetScreen: React.FC = () => {
-  function handleExportDataset() {
-    console.log('Export dataset')
+  async function handleExportDataset() {
+    await GeometricFigureService.saveBackupInFirebaseRealtimeDatabase()
+    ToastAndroid.show('Dados exportados com sucesso!', ToastAndroid.SHORT)
   }
 
   return (
     <Container>
       <Button activeOpacity={0.7} onPress={handleExportDataset}>
-        <ButtonText>Exportar dataset</ButtonText>
+        <ButtonText>Exportar para Firebase RTDB</ButtonText>
       </Button>
     </Container>
   )

@@ -1,3 +1,4 @@
+import { getDatabase, ref, set } from 'firebase/database'
 import { GeometricFigureDAO } from '../database/dao/geometric-figures'
 import { GeometricFigure, NewGeometricFigure } from '../models/geometric-figure'
 import { Assets } from '../utils/assets'
@@ -56,5 +57,13 @@ export namespace GeometricFigureService {
         await Assets.deleteAssets(extraAssets)
         const diference = extraAssets.length
         return diference
+    }
+
+    export async function saveBackupInFirebaseRealtimeDatabase() {
+        const geometricFigures = await GeometricFigureDAO.getAll()
+        const db = getDatabase()
+        const backupName = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
+        const geometricFiguresBackupRef = ref(db, `geometricFiguresBackup/${backupName}`)
+        await set(geometricFiguresBackupRef, geometricFigures)
     }
 }
