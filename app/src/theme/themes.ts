@@ -25,24 +25,33 @@ export const themes: { [key in ThemeTypes]: Theme } = {
             focused: "#2E75BB",
             disabled: "#666360",
             placeholder: "#777",
-            
+
             title: '#ffff44',
             text1: '#111',
             text2: '#444',
             text3: 'gray',
             link: 'blue',
-            
+
             success: "#00a152",
             info: "#5bc0de",
             warning: "#b2a300",
             danger: "#ab003c",
-            
+
             successContainer: '#d2f5d2',
             infoContainer: '#d2f5f5',
             warningContainer: '#f5f5d2',
             dangerContainer: '#f5d2d2',
 
             icon: '#444',
+
+            card: {
+                background: '#fff',
+                button: '#33932e',
+                buttonText: '#fff',
+                text: 'gray',
+                title: '#205f1d',
+                divider: '#E5E5E5',
+            },
 
             actionBar: {
                 background: '#fff',
@@ -80,24 +89,33 @@ export const themes: { [key in ThemeTypes]: Theme } = {
             focused: "#3e9fff",
             disabled: "#666360",
             placeholder: "#777",
-            
+
             title: '#ffff44',
             text1: '#fff',
             text2: '#D3CFC9',
             text3: '#a4a8a0',
             link: 'deepskyblue',
-            
+
             success: "#00e676",
             info: "#5bc0de",
             warning: "#ffea00",
             danger: "#f50057",
-            
+
             successContainer: '#193c19',
             infoContainer: '#193c3c',
             warningContainer: '#3c3c19',
             dangerContainer: '#3c1919',
 
             icon: '#fff',
+
+            card: {
+                background: '#2E2E34',
+                button: '#33932e',
+                buttonText: '#fff',
+                text: 'gray',
+                title: '#4adf44',
+                divider: '#777',
+            },
 
             actionBar: {
                 background: '#2E2E34',

@@ -2,7 +2,7 @@ import { Dimensions, Text, TouchableOpacity, View } from "react-native"
 import { styled } from "../../../hooks/theme"
 
 const numberOfColumns = 3
-const padding = 16
+const padding = 12
 const width = Dimensions.get("window").width
 const itemSize = width / numberOfColumns - padding * 2 / numberOfColumns
 

@@ -39,6 +39,15 @@ export interface Colors {
     dangerContainer: string
     
     icon: string
+
+    card: {
+        background: string
+        button: string
+        buttonText: string
+        text: string
+        title: string
+        divider: string
+    }
     
     actionBar: {
         background: string
