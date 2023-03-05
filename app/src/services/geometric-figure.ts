@@ -1,4 +1,4 @@
-import { getDatabase, ref, set } from 'firebase/database'
+import { get, getDatabase, ref, set } from 'firebase/database'
 import { GeometricFigureDAO } from '../database/dao/geometric-figures'
 import { GeometricFigure, NewGeometricFigure } from '../models/geometric-figure'
 import { Assets } from '../utils/assets'
@@ -59,11 +59,27 @@ export namespace GeometricFigureService {
         return diference
     }
 
-    export async function saveBackupInFirebaseRealtimeDatabase() {
+    export async function saveBackupInFirebaseRTDB() {
         const geometricFigures = await GeometricFigureDAO.getAll()
         const db = getDatabase()
         const backupName = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
         const geometricFiguresBackupRef = ref(db, `geometricFiguresBackup/${backupName}`)
         await set(geometricFiguresBackupRef, geometricFigures)
+    }
+
+    export async function getLastBackupName() {
+        const db = getDatabase()
+        const geometricFiguresBackupRef = ref(db, `geometricFiguresBackup`)
+        const geometricFiguresBackup = await get(geometricFiguresBackupRef)
+        const backupNames = Object.keys(geometricFiguresBackup.val())
+        return backupNames[backupNames.length - 1]
+    }
+
+    export async function restoreBackupFromFirebaseRTDB(backupName: string) {
+        const db = getDatabase()
+        const geometricFiguresBackupRef = ref(db, `geometricFiguresBackup/${backupName}`)
+        const geometricFigures = await get(geometricFiguresBackupRef)
+        await GeometricFigureDAO.deleteAllGeometricFigures()
+        await GeometricFigureDAO.createMany(geometricFigures.val())
     }
 }

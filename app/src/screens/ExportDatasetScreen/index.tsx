@@ -5,7 +5,7 @@ import { Button, ButtonText, Container } from './styles'
 
 const ExportDatasetScreen: React.FC = () => {
   async function handleExportDataset() {
-    await GeometricFigureService.saveBackupInFirebaseRealtimeDatabase()
+    await GeometricFigureService.saveBackupInFirebaseRTDB()
     ToastAndroid.show('Dados exportados com sucesso!', ToastAndroid.SHORT)
   }
 

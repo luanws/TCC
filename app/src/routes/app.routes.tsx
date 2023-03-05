@@ -6,6 +6,7 @@ import CreateDatasetScreen from '../screens/CreateDatasetScreen'
 import DatasetFixScreen from '../screens/DatasetFixScreen'
 import ExportDatasetScreen from '../screens/ExportDatasetScreen'
 import HomeScreen from '../screens/HomeScreen'
+import ImportDatasetScreen from '../screens/ImportDatasetScreen'
 import SettingsScreen from '../screens/SettingsScreen'
 import ShowDatasetScreen from '../screens/ShowDatasetScreen'
 import ShowGeometricFigure from '../screens/ShowGeometricFigure'
@@ -18,6 +19,7 @@ export type AppStackParamList = {
   ShowGeometricFigure: GeometricFigure
   DatasetFix: undefined
   ExportDataset: undefined
+  ImportDataset: undefined
 }
 
 const App = createNativeStackNavigator<AppStackParamList>()
@@ -45,6 +47,7 @@ const AppRoutes: React.FC = () => {
       <App.Screen component={ShowGeometricFigure} name="ShowGeometricFigure" options={{ title: 'Figura geométrica' }} />
       <App.Screen component={DatasetFixScreen} name="DatasetFix" options={{ title: 'Correção do dataset' }} />
       <App.Screen component={ExportDatasetScreen} name="ExportDataset" options={{ title: 'Exportação do dataset' }} />
+      <App.Screen component={ImportDatasetScreen} name="ImportDataset" options={{ title: 'Importação do dataset' }} />
     </App.Navigator>
   )
 }

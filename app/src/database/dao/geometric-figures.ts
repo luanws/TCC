@@ -14,6 +14,20 @@ export namespace GeometricFigureDAO {
         })
     }
 
+    export async function createMany(geometricFigures: GeometricFigure[]): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            db.transaction(tx => {
+                geometricFigures.forEach(geometricFigure => {
+                    const { type, isFailed, filename } = geometricFigure
+                    const isFailedInt = isFailed ? 1 : 0
+                    tx.executeSql(`
+                        INSERT INTO geometric_figures (id, type, is_failed, image_uri) VALUES (?, ?, ?, ?);
+                    `, [geometricFigure.id, type, isFailedInt, filename])
+                })
+            }, reject, resolve)
+        })
+    }
+
     export async function getAll(): Promise<GeometricFigure[]> {
         return new Promise<GeometricFigure[]>((resolve, reject) => {
             db.transaction(tx => {
@@ -62,6 +76,16 @@ export namespace GeometricFigureDAO {
             db.transaction(tx => {
                 tx.executeSql(`
                     DELETE FROM geometric_figures WHERE id IN (${geometricFigureIds.join(',')});
+                `)
+            }, reject, resolve)
+        })
+    }
+
+    export async function deleteAllGeometricFigures() {
+        return new Promise<void>((resolve, reject) => {
+            db.transaction(tx => {
+                tx.executeSql(`
+                    DELETE FROM geometric_figures;
                 `)
             }, reject, resolve)
         })
