@@ -14,6 +14,18 @@ export namespace GeometricFigureDAO {
         })
     }
 
+    export async function update(geometricFigureId: number, newGeometricFigure: NewGeometricFigure): Promise<void> {
+        const { type, isFailed } = newGeometricFigure
+        const isFailedInt = isFailed ? 1 : 0
+        return new Promise<void>((resolve, reject) => {
+            db.transaction(tx => {
+                tx.executeSql(`
+                    UPDATE geometric_figures SET type = ?, is_failed = ? WHERE id = ?;
+                `, [type, isFailedInt, geometricFigureId])
+            }, reject, resolve)
+        })
+    }
+
     export async function createMany(geometricFigures: GeometricFigure[]): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             db.transaction(tx => {

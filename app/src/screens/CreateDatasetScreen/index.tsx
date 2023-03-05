@@ -19,7 +19,7 @@ const CreateDatasetScreen: React.FC = () => {
   async function handleTakePicture(geometricFigure: NewGeometricFigure) {
     if (cameraRef.current) {
       const photo = await cameraRef.current.takePictureAsync({ quality: 1 })
-      await GeometricFigureService.saveGeometricFigure(geometricFigure, photo.uri)
+      await GeometricFigureService.createGeometricFigure(geometricFigure, photo.uri)
       ToastAndroid.show('Imagem salva com sucesso!', ToastAndroid.SHORT)
     }
   }

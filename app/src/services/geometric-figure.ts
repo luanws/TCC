@@ -6,9 +6,13 @@ import { Assets } from '../utils/assets'
 export namespace GeometricFigureService {
     const ALBUM_NAME = 'Geometric Figures'
 
-    export async function saveGeometricFigure(newGeometricFigure: NewGeometricFigure, uri: string) {
+    export async function createGeometricFigure(newGeometricFigure: NewGeometricFigure, uri: string) {
         const { filename } = await Assets.createAssetFromUri(ALBUM_NAME, uri)
         await GeometricFigureDAO.create(newGeometricFigure, filename)
+    }
+
+    export async function updateGeometricFigure(geometricFigureId: number, newGeometricFigure: NewGeometricFigure) {
+        await GeometricFigureDAO.update(geometricFigureId, newGeometricFigure)
     }
 
     export async function getAllGeometricFigures(): Promise<GeometricFigure[]> {

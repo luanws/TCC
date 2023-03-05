@@ -1,4 +1,4 @@
-import { Dimensions, Image, ScrollView, Text, View, TouchableOpacity } from "react-native"
+import { Dimensions, Image, ScrollView, Text, TouchableOpacity, View } from "react-native"
 import { styled } from "../../hooks/theme"
 
 const { width } = Dimensions.get("window")
@@ -38,12 +38,19 @@ export const JSONText = styled(Text)`
     font-size: 16px;
 `
 
+export const ButtonsContainer = styled(View)`
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    `
+
 export const DeleteButton = styled(TouchableOpacity)`
     background-color: ${({ theme }) => theme.colors.danger};
     padding: 16px 24px;
     border-radius: 8px;
     width: 100%;
     align-items: center;
+    margin-bottom: 16px;
 `
 
 export const DeleteButtonText = styled(Text)`
