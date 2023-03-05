@@ -13,7 +13,7 @@ export const Container = styled(View)`
 `
 
 export const Space = styled(View)`
-    height: 16px;
+    height: 8px;
 `
 
 export const ImageStyled = styled(Image)`
@@ -41,8 +41,7 @@ export const JSONText = styled(Text)`
 export const ButtonsContainer = styled(View)`
     flex-direction: row;
     justify-content: space-between;
-    margin-bottom: 16px;
-    `
+`
 
 export const DeleteButton = styled(TouchableOpacity)`
     background-color: ${({ theme }) => theme.colors.danger};
@@ -50,7 +49,6 @@ export const DeleteButton = styled(TouchableOpacity)`
     border-radius: 8px;
     width: 100%;
     align-items: center;
-    margin-bottom: 16px;
 `
 
 export const DeleteButtonText = styled(Text)`

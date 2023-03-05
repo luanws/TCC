@@ -1,5 +1,6 @@
 import { useNavigation, useRoute } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
+import { Alert } from 'react-native'
 import { GeometricFigure, NewGeometricFigure } from '../../models/geometric-figure'
 import { AppStackParamList } from '../../routes/app.routes'
 import { GeometricFigureService } from '../../services/geometric-figure'
@@ -24,9 +25,20 @@ const ShowGeometricFigure: React.FC = () => {
     GeometricFigureService.filenameToUri(filename).then(setUri)
   }, [])
 
-  async function handleDelete() {
+  async function deleteFigure() {
     await GeometricFigureService.deleteGeometricFigure(geometricFigure)
     navigation.goBack()
+  }
+
+  async function handleDelete() {
+    Alert.alert(
+      'Deletar figura',
+      'Tem certeza que deseja deletar essa figura?',
+      [
+        { text: 'Não', style: 'cancel' },
+        { text: 'Sim', onPress: deleteFigure },
+      ]
+    )
   }
 
   async function updateGeometricFigure(newGeometricFigure: NewGeometricFigure) {
@@ -43,6 +55,7 @@ const ShowGeometricFigure: React.FC = () => {
     <Scroll>
       <Container>
         <ImageStyled source={{ uri }} />
+        <Space />
         <Space />
         <JSONContainer>
           <JSONText>{JSON.stringify(geometricFigure, null, 4)}</JSONText>
@@ -80,9 +93,11 @@ const ShowGeometricFigure: React.FC = () => {
             onPress={() => handleFigurePress({ type: 'circle', isFailed: true })}
           />
         </ButtonsContainer>
+        <Space />
         <DeleteButton activeOpacity={0.7} onPress={handleDelete}>
           <DeleteButtonText>Deletar</DeleteButtonText>
         </DeleteButton>
+        <Space />
       </Container>
     </Scroll>
   )
