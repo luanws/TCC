@@ -25,6 +25,11 @@ const HomeScreen: React.FC = () => {
           onPress={() => navigation.navigate('ShowDataset')}
         />
         <NavigateButton
+          icon='Ionicons/stats-chart-sharp'
+          title='Contagem de figuras'
+          onPress={() => navigation.navigate('FigureCount')}
+        />
+        <NavigateButton
           icon='MaterialCommunityIcons/auto-fix'
           title='Corrigir dataset'
           onPress={() => navigation.navigate('DatasetFix')}
