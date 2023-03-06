@@ -3,12 +3,13 @@ import Icon from "../../../components/Icon"
 import { styled } from "../../../hooks/theme"
 
 export const Container = styled(TouchableOpacity)`
-    background-color: white;
+    background-color: ${({ theme }) => theme.colors.containerBackground};
     padding: 8px;
     border-radius: 8px;
     align-items: center;
     justify-content: center;
     margin: 4px;
+    flex: 1;
 `
 
 export const ButtonIcon = styled(Icon)`
@@ -16,6 +17,6 @@ export const ButtonIcon = styled(Icon)`
 `
 
 export const ButtonImage = styled(Image)`
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
 `
