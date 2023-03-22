@@ -1,16 +1,20 @@
-import { Camera } from 'expo-camera'
+import { Camera, FlashMode } from 'expo-camera'
 import { CameraType } from 'expo-camera/build/Camera.types'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { ToastAndroid } from 'react-native'
+import SwitchLabel from '../../components/SwitchLabel'
+import usePersistedState from '../../hooks/persisted-state'
 import { NewGeometricFigure } from '../../models/geometric-figure'
 import { GeometricFigureService } from '../../services/geometric-figure'
 import Button from './Button'
-import { BottomBar, BottomBarRow, BottomContainer, CameraContainer, CameraStyled, Container } from './styles'
+import { BottomBar, BottomBarRow, BottomContainer, CameraContainer, CameraStyled, Container, SwitchLabelContainer } from './styles'
 
 const CreateDatasetScreen: React.FC = () => {
   const [permission, requestPermission] = Camera.useCameraPermissions()
 
   const cameraRef = useRef<Camera>(null)
+
+  const [flashMode, setFlashMode] = usePersistedState<FlashMode>('flash-mode', FlashMode.off)
 
   useEffect(() => {
     requestPermission()
@@ -31,10 +35,18 @@ const CreateDatasetScreen: React.FC = () => {
           ref={cameraRef}
           type={CameraType.back}
           ratio='1:1'
+          flashMode={flashMode}
         />
       </CameraContainer>
       <BottomContainer>
         <BottomBar>
+          <SwitchLabelContainer>
+            <SwitchLabel
+              label='Flash'
+              value={flashMode === FlashMode.on}
+              onChange={value => setFlashMode(value ? FlashMode.on : FlashMode.off)}
+            />
+          </SwitchLabelContainer>
           <BottomBarRow>
             <Button
               image={require('../../assets/img/shapes/square.png')}

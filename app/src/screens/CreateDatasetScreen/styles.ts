@@ -26,11 +26,14 @@ export const BottomContainer = styled(View)`
 `
 
 export const BottomBar = styled(View)`
-    align-items: center;
     padding: 8px;
 `
 
 export const BottomBarRow = styled(View)`
     flex-direction: row;
     justify-content: space-between;
+`
+
+export const SwitchLabelContainer = styled(View)`
+    padding: 0px 16px;
 `
