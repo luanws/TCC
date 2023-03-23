@@ -27,6 +27,7 @@
     "python.linting.enabled": true,
     "cSpell.words": [
         "Crossentropy",
+        "facecolor",
         "matplotlib",
         "printoptions",
         "relu",
