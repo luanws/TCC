@@ -9,31 +9,26 @@ export namespace Assets {
     export async function getAssets(albumName: string): Promise<MediaLibrary.Asset[]> {
         assertMediaPermissions()
         const album = await MediaLibrary.getAlbumAsync(albumName)
-        const { assets } = await MediaLibrary.getAssetsAsync({ album })
+        const { assets } = await MediaLibrary.getAssetsAsync({ album, first: Infinity })
         return assets
     }
 
     export async function getAssetsByFilenames(albumName: string, filenames: string[]): Promise<MediaLibrary.Asset[]> {
         assertMediaPermissions()
-        const album = await MediaLibrary.getAlbumAsync(albumName)
-        const { assets } = await MediaLibrary.getAssetsAsync({ album })
+        const assets = await getAssets(albumName)
         const assetsByFilenames = assets.filter(asset => filenames.includes(asset.filename))
         return assetsByFilenames
     }
 
     export async function getAssetByFilename(albumName: string, filename: string): Promise<MediaLibrary.Asset | undefined> {
         assertMediaPermissions()
-        const album = await MediaLibrary.getAlbumAsync(albumName)
-        const { assets } = await MediaLibrary.getAssetsAsync({ album })
+        const assets = await getAssets(albumName)
         const asset = assets.find(asset => asset.filename === filename)
         return asset
     }
 
     export async function filenameToUri(albumName: string, filename: string): Promise<string> {
-        assertMediaPermissions()
-        const asset = await getAssetByFilename(albumName, filename)
-        if (!asset) throw new Error('Asset not found!')
-        return asset.uri
+        return `file:///storage/emulated/0/Pictures/${albumName}/${filename}`
     }
 
     export async function createAssetFromUri(albumName: string, uri: string): Promise<MediaLibrary.Asset> {
