@@ -1,0 +1,18 @@
+# Ignora arquivos Python bytecode
+*.pyc
+
+# Ignora arquivos de cache do pip
+__pycache__/
+
+# Ignora o diretório virtualenv
+venv/
+
+# Ignora arquivos de log
+*.log
+
+# Ignora arquivos de banco de dados SQLite
+*.sqlite3
+
+# Ignora arquivos de configuração sensíveis
+config.json
+secrets.yaml
