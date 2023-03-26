@@ -1,0 +1,17 @@
+{
+    "files.exclude": {
+        "**/__pycache__": true,
+        "**/.mypy_cache": true,
+        "**/.pytest_cache": true,
+    },
+    "python.linting.flake8Enabled": false,
+    "python.linting.mypyEnabled": true,
+    "python.linting.enabled": true,
+    "[html]": {
+        "editor.tabSize": 2
+    },
+    "cSpell.words": [
+        "argmax",
+        "tensorflow"
+    ]
+}
