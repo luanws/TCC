@@ -26,8 +26,11 @@
     "python.linting.mypyEnabled": true,
     "python.linting.enabled": true,
     "cSpell.words": [
+        "argmax",
+        "crossentropy",
         "Crossentropy",
         "facecolor",
+        "figsize",
         "matplotlib",
         "printoptions",
         "relu",
