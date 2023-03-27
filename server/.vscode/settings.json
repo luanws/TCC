@@ -12,6 +12,8 @@
     },
     "cSpell.words": [
         "argmax",
+        "dtype",
+        "frombytes",
         "tensorflow"
     ]
 }
