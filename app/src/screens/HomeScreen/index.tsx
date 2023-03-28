@@ -15,6 +15,11 @@ const HomeScreen: React.FC = () => {
       </CardsContainer>
       <NavigateButtonsContainer>
         <NavigateButton
+          icon='MaterialCommunityIcons/chat-processing'
+          title='Predição'
+          onPress={() => navigation.navigate('Predict')}
+        />
+        <NavigateButton
           icon='FontAwesome/camera'
           title='Criação do dataset'
           onPress={() => navigation.navigate('CreateDataset')}

@@ -8,6 +8,7 @@ import ExportDatasetScreen from '../screens/ExportDatasetScreen'
 import FigureCountScreen from '../screens/FigureCountScreen'
 import HomeScreen from '../screens/HomeScreen'
 import ImportDatasetScreen from '../screens/ImportDatasetScreen'
+import PredictScreen from '../screens/PredictScreen'
 import SettingsScreen from '../screens/SettingsScreen'
 import ShowDatasetScreen from '../screens/ShowDatasetScreen'
 import ShowGeometricFigure from '../screens/ShowGeometricFigure'
@@ -22,6 +23,7 @@ export type AppStackParamList = {
   ExportDataset: undefined
   ImportDataset: undefined
   FigureCount: undefined
+  Predict: undefined
 }
 
 const App = createNativeStackNavigator<AppStackParamList>()
@@ -51,6 +53,7 @@ const AppRoutes: React.FC = () => {
       <App.Screen component={ExportDatasetScreen} name="ExportDataset" options={{ title: 'Exportação do dataset' }} />
       <App.Screen component={ImportDatasetScreen} name="ImportDataset" options={{ title: 'Importação do dataset' }} />
       <App.Screen component={FigureCountScreen} name="FigureCount" options={{ title: 'Contagem de figuras' }} />
+      <App.Screen component={PredictScreen} name="Predict" options={{ title: 'Predição' }} />
     </App.Navigator>
   )
 }
