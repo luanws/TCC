@@ -7,7 +7,7 @@ class GeometricFiguresClassifierResource(Resource):
     def __init__(self) -> None:
         self.geometric_figure_classifier = GeometricFigureClassifier()
 
-    def get(self):
+    def post(self):
         data = request.get_json()
         image_base64 = data['image']
         prediction = self.geometric_figure_classifier.predict(image_base64)

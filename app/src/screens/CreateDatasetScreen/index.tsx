@@ -1,6 +1,6 @@
 import { Camera, FlashMode } from 'expo-camera'
 import { CameraType } from 'expo-camera/build/Camera.types'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { ToastAndroid } from 'react-native'
 import SwitchLabel from '../../components/SwitchLabel'
 import usePersistedState from '../../hooks/persisted-state'
