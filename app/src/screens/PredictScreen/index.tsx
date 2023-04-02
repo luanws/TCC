@@ -4,6 +4,7 @@ import { Alert } from 'react-native'
 import SwitchLabel from '../../components/SwitchLabel'
 import usePersistedState from '../../hooks/persisted-state'
 import { GeometricFigureService } from '../../services/geometric-figure'
+import { ImageUtils } from '../../utils/image'
 import { CameraContainer, CameraStyled, Container, SwitchLabelContainer, TakePictureButton, TakePictureButtonIcon } from './styles'
 
 interface Props {
@@ -19,13 +20,16 @@ const PredictScreen: React.FC<Props> = (props) => {
     requestPermission()
   }, [])
 
+
   async function handleTakePicture() {
     if (cameraRef.current) {
-      const { base64 } = await cameraRef.current.takePictureAsync({
+      const photo = await cameraRef.current.takePictureAsync({
         quality: 1,
         base64: true,
       })
-      const category = await GeometricFigureService.predictImage(base64!)
+      const base64 = await ImageUtils.resizeImage(photo.uri, 512, 512)
+      console.log(base64.length)
+      const category = await GeometricFigureService.predictImage(base64)
       Alert.alert('Predicted category', category)
     }
   }
