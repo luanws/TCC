@@ -44,7 +44,7 @@ export namespace GeometricFigureDAO {
         return new Promise<GeometricFigure[]>((resolve, reject) => {
             db.transaction(tx => {
                 tx.executeSql(`
-                    SELECT * FROM geometric_figures;
+                    SELECT * FROM geometric_figures ORDER BY id DESC;
                 `, [], (_, { rows: { _array } }) => {
                     const geometricFigures = _array.map(row => {
                         const { type, is_failed, image_uri, id } = row
