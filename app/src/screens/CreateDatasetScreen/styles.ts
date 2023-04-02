@@ -7,6 +7,7 @@ const size = width < height ? width : height
 
 export const Container = styled(View)`
     flex: 1;
+    justify-content: space-between;
 `
 
 export const CameraStyled = styled(Camera)`
@@ -16,7 +17,6 @@ export const CameraStyled = styled(Camera)`
 `
 
 export const CameraContainer = styled(View)`
-    flex: 1;
     align-items: center;
     justify-content: center;
 `
