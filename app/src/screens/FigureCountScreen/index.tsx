@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { GeometricFigure } from '../../models/geometric-figure'
 import { GeometricFigureService } from '../../services/geometric-figure'
 import CountFigure from './CountFigure'
-import { Container, Scroll } from './styles'
+import { Container, Scroll, TotalCountContainer, TotalCountText } from './styles'
 
 const FigureCountScreen: React.FC = (props) => {
   const [allGeometricFigures, setAllGeometricFigures] = useState<GeometricFigure[]>([])
@@ -27,6 +27,11 @@ const FigureCountScreen: React.FC = (props) => {
   return (
     <Scroll>
       <Container>
+        <TotalCountContainer>
+          <TotalCountText>
+            {allGeometricFigures.length} figuras geométricas
+          </TotalCountText>
+        </TotalCountContainer>
         <CountFigure
           image={require('../../assets/img/shapes/square.png')}
           count={squareCount}
