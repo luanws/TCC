@@ -48,6 +48,10 @@ def get_geometric_figures(path: str, image_size: Tuple[int, int], memorize: bool
     return geometric_figures
 
 
+def preprocess_input(x: np.ndarray) -> np.ndarray:
+    return x[:, :, 1:2]
+
+
 def get_input_and_output(geometric_figure: GeometricFigure) -> Tuple[np.ndarray, np.ndarray]:
     x = geometric_figure['image']
     y = {
@@ -55,6 +59,7 @@ def get_input_and_output(geometric_figure: GeometricFigure) -> Tuple[np.ndarray,
         'square': 1,
         'triangle': 2,
     }[geometric_figure['category']]
+    x = preprocess_input(x)
     return x, y
 
 
