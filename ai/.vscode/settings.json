@@ -35,6 +35,7 @@
         "printoptions",
         "relu",
         "softmax",
+        "termcolor",
         "xlabel",
         "xticks",
         "ylim",
