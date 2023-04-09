@@ -2,6 +2,7 @@ import json
 import math
 import os
 from concurrent.futures import ThreadPoolExecutor
+from copy import deepcopy
 from typing import List, Optional, Tuple
 
 import numpy as np
@@ -61,6 +62,30 @@ def preprocess_input(image: np.ndarray) -> np.ndarray:
     x = preprocess.remove_stain(x, min_size_remove_stain)
     x = preprocess.normalize(x)
     return x
+
+
+def get_train_test_validation_split(
+    geometric_figures: List[GeometricFigure],
+    test_ratio: float = 0.2,
+    validation_ratio: float = 0.1
+) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    shuffled_geometric_figures: List[GeometricFigure] = deepcopy(geometric_figures)
+    np.random.shuffle(shuffled_geometric_figures)
+
+    x, y = zip(*[get_input_and_output(gf) for gf in shuffled_geometric_figures])
+    x = np.array(x)
+    y = np.array(y)
+
+    test_size = int(len(x) * test_ratio)
+    validation_size = int(len(x) * validation_ratio)
+
+    x_train, x_test = x[:-test_size], x[-test_size:]
+    y_train, y_test = y[:-test_size], y[-test_size:]
+
+    x_train, x_validation = x_train[:-validation_size], x_train[-validation_size:]
+    y_train, y_validation = y_train[:-validation_size], y_train[-validation_size:]
+
+    return x_train, y_train, x_test, y_test, x_validation, y_validation
 
 
 def get_input_and_output(geometric_figure: GeometricFigure) -> Tuple[np.ndarray, np.ndarray]:
