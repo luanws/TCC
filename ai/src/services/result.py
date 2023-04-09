@@ -8,7 +8,7 @@ from src.models.model_result import ModelResult
 def create_model_results_file_if_not_exists(model_results_path: str):
     if not os.path.exists(model_results_path):
         with open(model_results_path, 'w') as f:
-            f.write('{}')
+            f.write('[]')
 
 
 def get_model_results(model_results_path: str) -> List[ModelResult]:
