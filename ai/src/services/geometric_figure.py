@@ -10,6 +10,7 @@ from PIL import Image
 
 from src.models.geometric_figure import GeometricFigure
 from src.models.geometric_figure_from_json import GeometricFigureFromJSON
+from src.utils import preprocess
 
 memorized_geometric_figures: Optional[List[GeometricFigure]] = None
 
@@ -48,8 +49,18 @@ def get_geometric_figures(path: str, image_size: Tuple[int, int], memorize: bool
     return geometric_figures
 
 
-def preprocess_input(x: np.ndarray) -> np.ndarray:
-    return x[:, :, 1:2]
+def preprocess_input(image: np.ndarray) -> np.ndarray:
+    x = image.copy()
+    x = x[:, :, 1:2]
+    x = preprocess.normalize(x)
+    x = x**10
+    x = preprocess.normalize(x)
+    x = np.heaviside(x - 0.15, 1)
+    x_size = x.shape[0] * x.shape[1]
+    min_size_remove_stain = 3000*(x_size)/(512**2)
+    x = preprocess.remove_stain(x, min_size_remove_stain)
+    x = preprocess.normalize(x)
+    return x
 
 
 def get_input_and_output(geometric_figure: GeometricFigure) -> Tuple[np.ndarray, np.ndarray]:
