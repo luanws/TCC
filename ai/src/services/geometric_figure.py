@@ -108,7 +108,7 @@ def prediction_to_category(y_pred: np.ndarray) -> str:
     return category_mapping[y_pred.argmax()]
 
 
-def plot_geometric_figures(geometric_figures: List[GeometricFigure], columns: int, plot_size: int = 3):
+def plot_geometric_figures(geometric_figures: List[GeometricFigure], columns: int, plot_size: int = 3, *args, **kwargs):
     rows = math.ceil(len(geometric_figures)/columns)
     fig, axs = plt.subplots(rows, columns, figsize=(columns * plot_size, rows * plot_size))
     axs = axs.reshape(rows, columns)
@@ -118,10 +118,17 @@ def plot_geometric_figures(geometric_figures: List[GeometricFigure], columns: in
                 axs[i, j].axis('off')
                 continue
             geometric_figure = geometric_figures[i * columns + j]
-            axs[i, j].imshow(geometric_figure['image'])
+            axs[i, j].imshow(geometric_figure['image'], *args, **kwargs)
             axs[i, j].set_title(geometric_figure['category'])
             axs[i, j].set_xticks([])
             axs[i, j].set_yticks([])
 
     fig.patch.set_facecolor('white')
     plt.tight_layout()
+
+
+def plot_geometric_figures_processed(geometric_figures: List[GeometricFigure], columns: int, plot_size: int = 3, *args, **kwargs):
+    geometric_figures = deepcopy(geometric_figures)
+    for geometric_figure in geometric_figures:
+        geometric_figure['image'] = preprocess_input(geometric_figure['image'])
+    plot_geometric_figures(geometric_figures, columns, plot_size, *args, **kwargs)
