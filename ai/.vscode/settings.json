@@ -38,6 +38,7 @@
         "ndimage",
         "printoptions",
         "relu",
+        "savefig",
         "scipy",
         "softmax",
         "termcolor",
