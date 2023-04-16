@@ -1,0 +1,4 @@
+services:
+  app:
+    image: luanws/tcc-server-app
+    restart: always
