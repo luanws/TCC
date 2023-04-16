@@ -2,37 +2,22 @@ import keras
 import numpy as np
 from PIL import Image
 
-from src.utils import files, preprocess
+from src.utils import preprocess
 
 
 class GeometricFigureClassifier:
     model: keras.models.Model
-    h5_file_url: str = 'https://download847.mediafire.com/9dsd959zgvsgBdchwIixXUWh8dRl6vaTEPKa0Ru-V8L6bGYwSoc3OrMe68GGLQE0UPJHpwv1_UmGnwItot_hud8FLfk/y9wi7sq5cgzyycl/geometric_figure_classifier.h5'
     filename: str = 'data/geometric_figure_classifier.h5'
     categories: list[str] = ['circle', 'square', 'triangle']
     image_size: int = 128
 
-    def __new__(cls):
-        if not hasattr(cls, 'instance'):
-            cls.instance = super(GeometricFigureClassifier, cls).__new__(cls)
-        return cls.instance
-
     def __init__(self):
-        self.model = self.load_model()
-
-    def download_model(self):
-        print('Downloading model...')
-        files.create_directory_if_not_exists('data')
-        files.download_file(self.h5_file_url, self.filename)
-        print('Model downloaded!')
+        if not hasattr(self, 'model'):
+            GeometricFigureClassifier.model = self.load_model()
 
     def load_model(self) -> keras.models.Model:
         print('Loading model...')
-        try:
-            model = keras.models.load_model(self.filename)
-        except IOError:
-            self.download_model()
-            return self.load_model()
+        model = keras.models.load_model(self.filename)
         print('Model loaded!')
         return model
 
@@ -47,7 +32,7 @@ class GeometricFigureClassifier:
         x = preprocess.normalize(x)
         x = np.heaviside(x - 0.15, 1)
         x_size = x.shape[0] * x.shape[1]
-        min_size_remove_stain = 3000*(x_size)/(512**2)
+        min_size_remove_stain = int(3000*(x_size)/(512**2))
         x = preprocess.remove_stain(x, min_size_remove_stain)
         x = preprocess.normalize(x)
         return x
