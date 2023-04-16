@@ -14,6 +14,8 @@
         "argmax",
         "dtype",
         "frombytes",
+        "heaviside",
+        "ndarray",
         "tensorflow"
     ]
 }
