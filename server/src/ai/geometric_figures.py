@@ -1,3 +1,5 @@
+import os
+
 import keras
 import numpy as np
 from PIL import Image
@@ -7,7 +9,7 @@ from src.utils import preprocess
 
 class GeometricFigureClassifier:
     model: keras.models.Model
-    filename: str = 'data/geometric_figure_classifier.h5'
+    filename: str = os.path.join(os.getcwd(), 'data', 'geometric_figure_classifier.h5')
     categories: list[str] = ['circle', 'square', 'triangle']
     image_size: int = 128
 
