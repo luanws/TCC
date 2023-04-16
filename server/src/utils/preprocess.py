@@ -16,7 +16,7 @@ def remove_stain(image: np.ndarray, min_size: int) -> np.ndarray:
     # Conta o número de pixels brancos em cada região
     count = np.bincount(labels.flatten())[1:]
     # Elimina as regiões com poucos pixels brancos
-    mask = np.zeros_like(labels, dtype=np.bool)
+    mask = np.zeros_like(labels, dtype=bool)
     for i in range(1, number_of_labels+1):
         if count[i-1] >= min_size:
             mask |= labels == i
