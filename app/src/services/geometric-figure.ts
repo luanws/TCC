@@ -7,11 +7,29 @@ import { Assets } from '../utils/assets'
 export namespace GeometricFigureService {
     const ALBUM_NAME = 'Geometric Figures'
 
-    export async function predictImage(base64: string): Promise<GeometricFigureType> {
-        const { data } = await api.post('/geometric_figures/classifier', { image: base64 })
-        const { category } = await data as { category: GeometricFigureType }
+    export async function predictImage(imageURI: string): Promise<GeometricFigureType> {
+        const now = new Date().toISOString()
+            .replace(/T/, ' ')
+            .replace(/\..+/, '')
+            .replace(/:/g, '-')
+            
+        const formData = new FormData()
+        formData.append('image', {
+            uri: imageURI,
+            type: 'image/jpeg',
+            name: `${now}.jpg`
+        } as any)
+
+        const { data } = await api.post('/geometric_figures/classifier', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+        })
+
+        const { category } = data as { category: GeometricFigureType }
         return category
     }
+
 
     export async function createGeometricFigure(newGeometricFigure: NewGeometricFigure, uri: string) {
         const { filename } = await Assets.createAssetFromUri(ALBUM_NAME, uri)
