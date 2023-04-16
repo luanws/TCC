@@ -1,5 +1,3 @@
-import base64
-
 import keras
 import numpy as np
 from PIL import Image
@@ -12,7 +10,7 @@ class GeometricFigureClassifier:
     h5_file_url: str = 'https://download847.mediafire.com/9dsd959zgvsgBdchwIixXUWh8dRl6vaTEPKa0Ru-V8L6bGYwSoc3OrMe68GGLQE0UPJHpwv1_UmGnwItot_hud8FLfk/y9wi7sq5cgzyycl/geometric_figure_classifier.h5'
     filename: str = 'data/geometric_figure_classifier.h5'
     categories: list[str] = ['circle', 'square', 'triangle']
-    image_size: tuple[int, int] = (512, 512)
+    image_size: int = 512
 
     def __new__(cls):
         if not hasattr(cls, 'instance'):
@@ -42,17 +40,13 @@ class GeometricFigureClassifier:
         return self.categories[np.argmax(prediction)]
     
     def __preprocess_image(self, image: Image) -> np.ndarray:
-        image = image.resize(self.image_size)
+        image = image.resize((self.image_size, self.image_size))
         image_array = np.array(image, dtype=np.float32) / 255
         image_array = image_array[:, :, 1]
         image_array = np.expand_dims(image_array, axis=0)
         return image_array
-    
-    def __base64_to_image(self, image_base64: str) -> Image:
-        return Image.frombytes('RGB', self.image_size, base64.b64decode(image_base64))
 
-    def predict(self, image_base64: str) -> str:
-        image = self.__base64_to_image(image_base64)
+    def predict(self, image: Image) -> str: 
         image = self.__preprocess_image(image)
         prediction = self.model.predict(image)
         return self.__decode_prediction(prediction)

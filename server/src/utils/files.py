@@ -6,5 +6,6 @@ def download_file(url: str, filename: str):
     urllib.request.urlretrieve(url, filename)
 
 def create_directory_if_not_exists(directory: str):
+    directory = os.path.dirname(directory)
     if not os.path.exists(directory):
         os.makedirs(directory)
