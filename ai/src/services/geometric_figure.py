@@ -90,13 +90,20 @@ def get_train_test_validation_split(
 
 def get_input_and_output(geometric_figure: GeometricFigure) -> Tuple[np.ndarray, np.ndarray]:
     x = geometric_figure['image']
-    y = {
+    y = geometric_figure_to_category_number(geometric_figure)
+    x = preprocess_input(x)
+    return x, y
+
+
+def geometric_figure_to_category_number(geometric_figure: GeometricFigure) -> int:
+    category_mapping = {
         'circle': 0,
         'square': 1,
         'triangle': 2,
-    }[geometric_figure['category']]
-    x = preprocess_input(x)
-    return x, y
+        'failed-figure': 3
+    }
+    string_category = 'failed-figure' if geometric_figure['is_failed'] else geometric_figure['category']
+    return category_mapping[string_category]
 
 
 def prediction_to_category(y_pred: np.ndarray) -> str:
@@ -104,6 +111,7 @@ def prediction_to_category(y_pred: np.ndarray) -> str:
         0: 'circle',
         1: 'square',
         2: 'triangle',
+        3: 'failed-figure'
     }
     return category_mapping[y_pred.argmax()]
 
