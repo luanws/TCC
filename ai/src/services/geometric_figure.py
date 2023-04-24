@@ -50,6 +50,59 @@ def get_geometric_figures(path: str, image_size: Tuple[int, int], memorize: bool
     return geometric_figures
 
 
+def damage_image(image_array: np.ndarray) -> np.ndarray:
+    image_array_preprocessed = preprocess_input(image_array)
+    x = image_array_preprocessed.copy()
+
+    for _ in range(100):
+        x = preprocess.add_random_polygon(x, np.random.randint(10, 20, 2))
+        x = preprocess.remove_stain(x, x.size*0.01)
+        if not preprocess.is_similar(x, image_array_preprocessed):
+            break
+
+    if np.random.rand() < 0.5:
+        x = preprocess.add_noise(x, 0.01, np.random.randint(2, 4))
+
+    if preprocess.is_black_image(x) or preprocess.is_similar(x, image_array_preprocessed):
+        x = image_array_preprocessed.copy()
+        for i in range(100):
+            noise_proportion = 0.001 * (i + 1)
+            noise_group_size = np.random.randint(2, 4)
+            x = preprocess.add_noise(x, noise_proportion, noise_group_size)
+            x = preprocess.remove_stain(x, x.size*0.01)
+            if not preprocess.is_black_image(x) and not preprocess.is_similar(x, image_array_preprocessed):
+                break
+
+    return x
+
+
+# def discard_geometric_figures_with_black_image(geometric_figures: List[GeometricFigure]) -> List[GeometricFigure]:
+#     return [gf for gf in geometric_figures if not preprocess.is_black_image(gf['image'])]
+
+
+def create_damaged_geometric_figures(geometric_figures: List[GeometricFigure]) -> List[GeometricFigure]:
+    geometric_figures = deepcopy(geometric_figures)
+
+    def damage_geometric_figure(geometric_figure: GeometricFigure) -> GeometricFigure:
+        geometric_figure['image'] = damage_image(geometric_figure['image'])
+        geometric_figure['is_failed'] = True
+        return geometric_figure
+
+    with ThreadPoolExecutor() as executor:
+        damaged_geometric_figures = list(executor.map(damage_geometric_figure, geometric_figures))
+
+    # damaged_geometric_figures = discard_geometric_figures_with_black_image(damaged_geometric_figures)
+    return damaged_geometric_figures
+
+
+def add_damaged_geometric_figures(geometric_figures: List[GeometricFigure], repeat: int = 1) -> List[GeometricFigure]:
+    geometric_figures = deepcopy(geometric_figures)
+    for _ in range(repeat):
+        damaged_geometric_figures = create_damaged_geometric_figures(geometric_figures)
+        geometric_figures.extend(damaged_geometric_figures)
+    return geometric_figures
+
+
 def preprocess_input(image: np.ndarray) -> np.ndarray:
     x = image.copy()
     if x.shape[2] == 3:
@@ -117,15 +170,7 @@ def prediction_to_category(y_pred: np.ndarray) -> str:
     return category_mapping[y_pred.argmax()]
 
 
-def plot_geometric_figures(
-    geometric_figures: List[GeometricFigure],
-    columns: int,
-    plot_size: int = 3,
-    preprocess: Callable[[np.ndarray], np.ndarray] = None,
-    *args,
-    **kwargs
-):
-    preprocess = preprocess or (lambda x: x)
+def plot_geometric_figures(geometric_figures: List[GeometricFigure], columns: int, plot_size: int = 3, *args, **kwargs):
     rows = math.ceil(len(geometric_figures)/columns)
     fig, axs = plt.subplots(rows, columns, figsize=(columns * plot_size, rows * plot_size))
     axs = axs.reshape(rows, columns)
@@ -135,7 +180,7 @@ def plot_geometric_figures(
                 axs[i, j].axis('off')
                 continue
             geometric_figure = geometric_figures[i * columns + j]
-            image = preprocess(geometric_figure['image'])
+            image = geometric_figure['image']
             axs[i, j].imshow(image, *args, **kwargs)
             axs[i, j].set_title(geometric_figure['category'])
             axs[i, j].set_xticks([])
