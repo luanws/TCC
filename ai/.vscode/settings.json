@@ -33,6 +33,7 @@
         "facecolor",
         "figsize",
         "heaviside",
+        "imsave",
         "linspace",
         "matplotlib",
         "ndimage",
