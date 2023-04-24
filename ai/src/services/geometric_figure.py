@@ -3,7 +3,7 @@ import math
 import os
 from concurrent.futures import ThreadPoolExecutor
 from copy import deepcopy
-from typing import List, Optional, Tuple
+from typing import Callable, List, Optional, Tuple
 
 import numpy as np
 from matplotlib import pyplot as plt
@@ -52,13 +52,14 @@ def get_geometric_figures(path: str, image_size: Tuple[int, int], memorize: bool
 
 def preprocess_input(image: np.ndarray) -> np.ndarray:
     x = image.copy()
-    x = x[:, :, 1:2]
+    if x.shape[2] == 3:
+        x = x[:, :, 1:2]
     x = preprocess.normalize(x)
     x = x**10
     x = preprocess.normalize(x)
     x = np.heaviside(x - 0.15, 1)
     x_size = x.shape[0] * x.shape[1]
-    min_size_remove_stain = 3000*(x_size)/(512**2)
+    min_size_remove_stain = x_size*0.011444091796875
     x = preprocess.remove_stain(x, min_size_remove_stain)
     x = preprocess.normalize(x)
     return x
@@ -116,7 +117,15 @@ def prediction_to_category(y_pred: np.ndarray) -> str:
     return category_mapping[y_pred.argmax()]
 
 
-def plot_geometric_figures(geometric_figures: List[GeometricFigure], columns: int, plot_size: int = 3, *args, **kwargs):
+def plot_geometric_figures(
+    geometric_figures: List[GeometricFigure],
+    columns: int,
+    plot_size: int = 3,
+    preprocess: Callable[[np.ndarray], np.ndarray] = None,
+    *args,
+    **kwargs
+):
+    preprocess = preprocess or (lambda x: x)
     rows = math.ceil(len(geometric_figures)/columns)
     fig, axs = plt.subplots(rows, columns, figsize=(columns * plot_size, rows * plot_size))
     axs = axs.reshape(rows, columns)
@@ -126,7 +135,8 @@ def plot_geometric_figures(geometric_figures: List[GeometricFigure], columns: in
                 axs[i, j].axis('off')
                 continue
             geometric_figure = geometric_figures[i * columns + j]
-            axs[i, j].imshow(geometric_figure['image'], *args, **kwargs)
+            image = preprocess(geometric_figure['image'])
+            axs[i, j].imshow(image, *args, **kwargs)
             axs[i, j].set_title(geometric_figure['category'])
             axs[i, j].set_xticks([])
             axs[i, j].set_yticks([])
