@@ -3,7 +3,7 @@ import math
 import os
 from concurrent.futures import ThreadPoolExecutor
 from copy import deepcopy
-from typing import Callable, List, Optional, Tuple
+from typing import List, Optional, Tuple
 
 import numpy as np
 from matplotlib import pyplot as plt
@@ -156,8 +156,8 @@ def geometric_figure_to_category_number(geometric_figure: GeometricFigure) -> in
         'square': 1,
         'triangle': 2,
         'failed-circle': 3,
-        'failed-square': 3,
-        'failed-triangle': 3
+        'failed-square': 4,
+        'failed-triangle': 5
     }
     category = geometric_figure['category']
     is_failed = geometric_figure['is_failed']
@@ -170,9 +170,15 @@ def prediction_to_category(y_pred: np.ndarray) -> str:
         0: 'circle',
         1: 'square',
         2: 'triangle',
-        3: 'failed-figure'
+        3: 'failed-circle',
+        4: 'failed-square',
+        5: 'failed-triangle'
     }
     return category_mapping[y_pred.argmax()]
+
+
+def prediction_to_is_failed(y_pred: np.ndarray) -> bool:
+    return prediction_to_category(y_pred).startswith('failed')
 
 
 def plot_geometric_figures(geometric_figures: List[GeometricFigure], columns: int, plot_size: int = 3, *args, **kwargs):
