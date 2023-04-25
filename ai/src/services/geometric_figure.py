@@ -73,11 +73,12 @@ def damage_image(image_array: np.ndarray) -> np.ndarray:
             if not preprocess.is_black_image(x) and not preprocess.is_similar(x, image_array_preprocessed):
                 break
 
+    x = preprocess_input(x)
     return x
 
 
-# def discard_geometric_figures_with_black_image(geometric_figures: List[GeometricFigure]) -> List[GeometricFigure]:
-#     return [gf for gf in geometric_figures if not preprocess.is_black_image(gf['image'])]
+def discard_geometric_figures_with_black_image(geometric_figures: List[GeometricFigure]) -> List[GeometricFigure]:
+    return [gf for gf in geometric_figures if not preprocess.is_black_image(gf['image'])]
 
 
 def create_damaged_geometric_figures(geometric_figures: List[GeometricFigure]) -> List[GeometricFigure]:
@@ -91,7 +92,7 @@ def create_damaged_geometric_figures(geometric_figures: List[GeometricFigure]) -
     with ThreadPoolExecutor() as executor:
         damaged_geometric_figures = list(executor.map(damage_geometric_figure, geometric_figures))
 
-    # damaged_geometric_figures = discard_geometric_figures_with_black_image(damaged_geometric_figures)
+    damaged_geometric_figures = discard_geometric_figures_with_black_image(damaged_geometric_figures)
     return damaged_geometric_figures
 
 
@@ -154,9 +155,13 @@ def geometric_figure_to_category_number(geometric_figure: GeometricFigure) -> in
         'circle': 0,
         'square': 1,
         'triangle': 2,
-        'failed-figure': 3
+        'failed-circle': 3,
+        'failed-square': 3,
+        'failed-triangle': 3
     }
-    string_category = 'failed-figure' if geometric_figure['is_failed'] else geometric_figure['category']
+    category = geometric_figure['category']
+    is_failed = geometric_figure['is_failed']
+    string_category = 'failed-' + category if is_failed else category
     return category_mapping[string_category]
 
 
