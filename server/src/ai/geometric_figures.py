@@ -10,7 +10,7 @@ from src.utils import preprocess
 class GeometricFigureClassifier:
     model: keras.models.Model
     filename: str = os.path.join(os.getcwd(), 'data', 'geometric_figure_classifier.h5')
-    categories: list[str] = ['circle', 'square', 'triangle']
+    categories: list[str] = ['circle', 'square', 'triangle', 'failed-circle', 'failed-square', 'failed-triangle']
     image_size: int = 128
 
     def __init__(self):
@@ -34,7 +34,7 @@ class GeometricFigureClassifier:
         x = preprocess.normalize(x)
         x = np.heaviside(x - 0.15, 1)
         x_size = x.shape[0] * x.shape[1]
-        min_size_remove_stain = int(3000*(x_size)/(512**2))
+        min_size_remove_stain = int(x_size*0.011444091796875)
         x = preprocess.remove_stain(x, min_size_remove_stain)
         x = preprocess.normalize(x)
         return x
