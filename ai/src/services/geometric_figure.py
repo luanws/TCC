@@ -122,10 +122,12 @@ def preprocess_input(image: np.ndarray) -> np.ndarray:
 def get_train_test_validation_split(
     geometric_figures: List[GeometricFigure],
     test_ratio: float = 0.2,
-    validation_ratio: float = 0.1
+    validation_ratio: float = 0.1,
+    shuffle: bool = True
 ) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     shuffled_geometric_figures: List[GeometricFigure] = deepcopy(geometric_figures)
-    np.random.shuffle(shuffled_geometric_figures)
+    if shuffle:
+        np.random.shuffle(shuffled_geometric_figures)
 
     x, y = zip(*[get_input_and_output(gf) for gf in shuffled_geometric_figures])
     x = np.array(x)
