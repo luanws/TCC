@@ -41,6 +41,7 @@
         "relu",
         "savefig",
         "scipy",
+        "seaborn",
         "softmax",
         "termcolor",
         "xlabel",
