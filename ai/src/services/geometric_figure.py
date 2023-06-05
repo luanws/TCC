@@ -125,8 +125,9 @@ def get_train_test_validation_split(
     validation_ratio: float = 0.1,
     shuffle: bool = True
 ) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
-    shuffled_geometric_figures: List[GeometricFigure] = deepcopy(geometric_figures)
+    shuffled_geometric_figures: List[GeometricFigure] = geometric_figures
     if shuffle:
+        shuffled_geometric_figures = deepcopy(geometric_figures)
         np.random.shuffle(shuffled_geometric_figures)
 
     x, y = zip(*[get_input_and_output(gf) for gf in shuffled_geometric_figures])
