@@ -20,7 +20,8 @@
         "**/.DS_Store": true,
         "**/Thumbs.db": true,
         "**/__pycache__": true,
-        "**/.mypy_cache": true
+        "**/.mypy_cache": true,
+        "**/.ipynb_checkpoints": true
     },
     "python.linting.flake8Enabled": false,
     "python.linting.mypyEnabled": true,
