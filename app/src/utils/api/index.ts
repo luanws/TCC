@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-export const serverAddressApi = 'http://192.168.100.115:5000/api'
+export const defaultServerAddressApi = 'https://tcc-server-en2x.onrender.com/api'
 
 export const api = axios.create({
-    baseURL: serverAddressApi,
+    baseURL: defaultServerAddressApi,
 })
