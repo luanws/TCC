@@ -10,7 +10,7 @@ from src.utils import preprocess
 class GeometricFigureClassifier:
     model: keras.models.Model
     filename: str = os.path.join(os.getcwd(), 'data', 'geometric_figure_classifier.h5')
-    categories: list[str] = ['circle', 'square', 'triangle']
+    categories: list[str] = ['circle', 'square', 'triangle', 'failed-circle', 'failed-square', 'failed-triangle']
     image_size: int = 128
 
     def __init__(self):
