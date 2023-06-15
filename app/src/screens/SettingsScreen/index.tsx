@@ -1,6 +1,7 @@
 import React from 'react'
 import SwitchLabel from '../../components/SwitchLabel'
 import { useSettings } from '../../hooks/settings'
+import ApiAddressManager from './ApiAddressManager'
 import { Container } from './styles'
 
 const SettingsScreen: React.FC = () => {
@@ -13,6 +14,7 @@ const SettingsScreen: React.FC = () => {
         value={theme == 'dark'}
         onChange={isDark => setTheme(isDark ? 'dark' : 'light')}
       />
+      <ApiAddressManager />
     </Container>
   )
 }
