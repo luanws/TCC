@@ -2,8 +2,8 @@ import { NavigationProp, useNavigation } from '@react-navigation/native'
 import React from 'react'
 import { AppStackParamList } from '../../routes/app.routes'
 import NavigateButton from './NavigateButton'
-import { CardsContainer, NavigateButtonsContainer, Scroll } from './styles'
 import UpdateCheckerCard from './UpdateCheckerCard'
+import { CardsContainer, NavigateButtonsContainer, Scroll } from './styles'
 
 const HomeScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp<AppStackParamList>>()
@@ -14,6 +14,11 @@ const HomeScreen: React.FC = () => {
         <UpdateCheckerCard />
       </CardsContainer>
       <NavigateButtonsContainer>
+        <NavigateButton
+          icon='Ionicons/rocket-sharp'
+          title='Automação'
+          onPress={() => navigation.navigate('Automation')}
+        />
         <NavigateButton
           icon='MaterialCommunityIcons/chat-processing'
           title='Predição'

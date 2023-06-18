@@ -12,6 +12,7 @@ import PredictScreen from '../screens/PredictScreen'
 import SettingsScreen from '../screens/SettingsScreen'
 import ShowDatasetScreen from '../screens/ShowDatasetScreen'
 import ShowGeometricFigure from '../screens/ShowGeometricFigure'
+import AutomationScreen from '../screens/AutomationScreen'
 
 export type AppStackParamList = {
   Home: undefined
@@ -24,6 +25,7 @@ export type AppStackParamList = {
   ImportDataset: undefined
   FigureCount: undefined
   Predict: undefined
+  Automation: undefined
 }
 
 const App = createNativeStackNavigator<AppStackParamList>()
@@ -54,6 +56,7 @@ const AppRoutes: React.FC = () => {
       <App.Screen component={ImportDatasetScreen} name="ImportDataset" options={{ title: 'Importação do dataset' }} />
       <App.Screen component={FigureCountScreen} name="FigureCount" options={{ title: 'Contagem de figuras' }} />
       <App.Screen component={PredictScreen} name="Predict" options={{ title: 'Predição' }} />
+      <App.Screen component={AutomationScreen} name="Automation" options={{ title: 'Automação' }} />
     </App.Navigator>
   )
 }
