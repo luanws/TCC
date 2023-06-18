@@ -16,6 +16,7 @@
         "frombytes",
         "heaviside",
         "ndarray",
-        "tensorflow"
+        "tensorflow",
+        "werkzeug"
     ]
 }
