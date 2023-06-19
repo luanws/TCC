@@ -42,7 +42,8 @@ export namespace GeometricFigureService {
         const geometricFigureInfo: GeometricFigureInfo = {
             bottomDistance: data.bottom_distance,
             topDistance: data.top_distance,
-            containsGeometricFigure: data.contains_geometric_figure
+            containsGeometricFigure: data.contains_geometric_figure,
+            category: data.category
         }
         return geometricFigureInfo
     }

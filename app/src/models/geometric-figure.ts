@@ -1,4 +1,5 @@
 export type GeometricFigureType = 'circle' | 'square' | 'triangle'
+export type GeometricFigureCategory = 'circle' | 'square' | 'triangle' | 'failed-circle' | 'failed-square' | 'failed-triangle'
 
 export interface GeometricFigure {
     id: number
@@ -16,4 +17,5 @@ export interface GeometricFigureInfo {
     bottomDistance: number
     topDistance: number
     containsGeometricFigure: boolean
+    category: GeometricFigureCategory
 }

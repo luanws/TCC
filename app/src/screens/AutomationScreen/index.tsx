@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Alert } from 'react-native'
 import SwitchLabel from '../../components/SwitchLabel'
 import usePersistedState from '../../hooks/persisted-state'
-import { GeometricFigureType } from '../../models/geometric-figure'
+import { GeometricFigureCategory } from '../../models/geometric-figure'
 import { GeometricFigureService } from '../../services/geometric-figure'
 import { ImageUtils } from '../../utils/image'
 import { CameraContainer, CameraStyled, Container, InfoText, PlayButton, PlayButtonIcon, SwitchLabelContainer } from './styles'
@@ -14,7 +14,7 @@ interface Props {
 const AUTOMATION_INTERVAL = 3 * 1000
 const MARGIN_SIZE = 0.25
 let isWithinMargin = false
-let predictions: GeometricFigureType[] = []
+let predictions: GeometricFigureCategory[] = []
 
 const AutomationScreen: React.FC<Props> = (props) => {
   const cameraRef = useRef<Camera>(null)
@@ -22,7 +22,7 @@ const AutomationScreen: React.FC<Props> = (props) => {
   const [permission, requestPermission] = Camera.useCameraPermissions()
   const [flashMode, setFlashMode] = usePersistedState<FlashMode>('flash-mode', FlashMode.off)
   const [isAutomationEnabled, setIsAutomationEnabled] = useState<boolean>(false)
-  const [_predictions, setPredictions] = useState<GeometricFigureType[]>([])
+  const [_predictions, setPredictions] = useState<GeometricFigureCategory[]>([])
   const [infoText, setInfoText] = useState<string>('')
 
   useEffect(() => {
@@ -57,9 +57,8 @@ const AutomationScreen: React.FC<Props> = (props) => {
     }
   }
 
-  async function onEnterMargin(pictureUri: string) {
+  async function onEnterMargin(prediction: GeometricFigureCategory) {
     isWithinMargin = true
-    const prediction = await GeometricFigureService.predictImage(pictureUri)
     setPredictions(predictions => [...predictions, prediction])
   }
 
@@ -81,11 +80,11 @@ const AutomationScreen: React.FC<Props> = (props) => {
     const picture = await takePicture()
     if (picture) {
       const geometricFigureInfo = await GeometricFigureService.getGeometricFigureInfo(picture.uri)
-      const { bottomDistance, topDistance, containsGeometricFigure } = geometricFigureInfo
+      const { bottomDistance, topDistance, containsGeometricFigure, category } = geometricFigureInfo
       setInfoText(`${(bottomDistance * 100).toFixed(0)}% - ${(topDistance * 100).toFixed(0)}%`)
       const newIsWithinMargin = bottomDistance > MARGIN_SIZE && topDistance > MARGIN_SIZE
       if (containsGeometricFigure && newIsWithinMargin) {
-        onEnterMargin(picture.uri)
+        onEnterMargin(category)
       } else {
         onCloseMargin()
       }
