@@ -26,8 +26,7 @@ class GeometricFigureClassifier:
     def __decode_prediction(self, prediction: np.ndarray) -> str:
         return self.categories[np.argmax(prediction)]
     
-    @classmethod
-    def preprocess_input(cls, x: np.ndarray) -> np.ndarray:
+    def preprocess_input(self, x: np.ndarray) -> np.ndarray:
         x = x.copy()
         x = x[:, :, 1:2]
         x = preprocess.normalize(x)
@@ -40,11 +39,10 @@ class GeometricFigureClassifier:
         x = preprocess.normalize(x)
         return x
 
-    @classmethod
-    def preprocess_image(cls, image: Image) -> np.ndarray:
-        image = image.resize((cls.image_size, cls.image_size))
+    def preprocess_image(self, image: Image) -> np.ndarray:
+        image = image.resize((self.image_size, self.image_size))
         image_array = np.array(image, dtype=np.float32) / 255
-        image_array = cls.preprocess_input(image_array)
+        image_array = self.preprocess_input(image_array)
         image_array = np.expand_dims(image_array, axis=0)
         return image_array
 

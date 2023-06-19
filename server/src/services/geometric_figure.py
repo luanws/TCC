@@ -3,7 +3,7 @@ import numpy as np
 from src.models.geometric_figure_info import GeometricFigureInfo
 
 
-def get_geometric_figure_info(image: np.ndarray) -> GeometricFigureInfo:
+def get_geometric_figure_info(image: np.ndarray, category: str) -> GeometricFigureInfo:
     image = image.squeeze()
     height = image.shape[0]
     vertical_image = np.sum(image > 0, axis=1)
@@ -17,4 +17,5 @@ def get_geometric_figure_info(image: np.ndarray) -> GeometricFigureInfo:
         'top_distance': top_distance,
         'bottom_distance': bottom_distance,
         'contains_geometric_figure': contains_geometric_figure,
+        'category': category
     }
