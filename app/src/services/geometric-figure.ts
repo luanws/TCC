@@ -1,6 +1,6 @@
 import { get, getDatabase, ref, set } from 'firebase/database'
 import { GeometricFigureDAO } from '../database/dao/geometric-figures'
-import { GeometricFigure, GeometricFigureType, NewGeometricFigure } from '../models/geometric-figure'
+import { GeometricFigure, GeometricFigureInfo, GeometricFigureType, NewGeometricFigure } from '../models/geometric-figure'
 import { api } from '../utils/api'
 import { Assets } from '../utils/assets'
 
@@ -12,13 +12,9 @@ export namespace GeometricFigureService {
             .replace(/T/, ' ')
             .replace(/\..+/, '')
             .replace(/:/g, '-')
-            
+
         const formData = new FormData()
-        formData.append('image', {
-            uri: imageURI,
-            type: 'image/jpeg',
-            name: `${now}.jpg`
-        } as any)
+        formData.append('image', { uri: imageURI, type: 'image/jpeg', name: `${now}.jpg` } as any)
 
         const { data } = await api.post('/geometric_figures/classifier', formData, {
             headers: {
@@ -30,6 +26,26 @@ export namespace GeometricFigureService {
         return category
     }
 
+    export async function getGeometricFigureInfo(uri: string): Promise<GeometricFigureInfo> {
+        const now = new Date().toISOString()
+            .replace(/T/, ' ')
+            .replace(/\..+/, '')
+            .replace(/:/g, '-')
+        const formData = new FormData()
+        formData.append('image', { uri, type: 'image/jpeg', name: `${now}.jpg` } as any)
+
+        const { data } = await api.post('/geometric_figures/info', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+        })
+        const geometricFigureInfo: GeometricFigureInfo = {
+            bottomDistance: data.bottom_distance,
+            topDistance: data.top_distance,
+            containsGeometricFigure: data.contains_geometric_figure
+        }
+        return geometricFigureInfo
+    }
 
     export async function createGeometricFigure(newGeometricFigure: NewGeometricFigure, uri: string) {
         const { filename } = await Assets.createAssetFromUri(ALBUM_NAME, uri)
