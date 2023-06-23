@@ -1,6 +1,6 @@
 import { Camera, CameraType, FlashMode } from 'expo-camera'
 import React, { useEffect, useRef, useState } from 'react'
-import { Alert } from 'react-native'
+import { Alert, ScrollView } from 'react-native'
 import SwitchLabel from '../../components/SwitchLabel'
 import usePersistedState from '../../hooks/persisted-state'
 import { BeltStatus } from '../../models/belt'
@@ -8,7 +8,7 @@ import { GeometricFigureCategory } from '../../models/geometric-figure'
 import { BeltService } from '../../services/belt'
 import { GeometricFigureService } from '../../services/geometric-figure'
 import { ImageUtils } from '../../utils/image'
-import { CameraContainer, CameraStyled, Container, InfoText, PlayButton, PlayButtonIcon, SwitchLabelContainer } from './styles'
+import { BottomContainer, CameraContainer, CameraStyled, Container, InfoText, PlayButton, PlayButtonIcon, PredictionImage, PredictionImagesContainer, PredictionImagesScroll, SwitchLabelContainer } from './styles'
 
 interface Props {
 }
@@ -20,6 +20,7 @@ let predictions: GeometricFigureCategory[] = []
 
 const AutomationScreen: React.FC<Props> = (props) => {
   const cameraRef = useRef<Camera>(null)
+  const predictionImagesScrollRef = useRef<ScrollView>(null)
 
   const [permission, requestPermission] = Camera.useCameraPermissions()
   const [flashMode, setFlashMode] = usePersistedState<FlashMode>('flash-mode', FlashMode.off)
@@ -114,6 +115,23 @@ const AutomationScreen: React.FC<Props> = (props) => {
 
   return (
     <Container>
+      <PredictionImagesScroll
+        ref={predictionImagesScrollRef}
+        horizontal
+        onContentSizeChange={() => {
+          predictionImagesScrollRef.current?.scrollToEnd({ animated: true })
+        }}
+      >
+        <PredictionImagesContainer>
+          {_predictions.map((prediction, index) => (
+            <PredictionImage
+              key={index}
+              source={GeometricFigureService.getImageFromCategory(prediction)}
+              resizeMode='contain'
+            />
+          ))}
+        </PredictionImagesContainer>
+      </PredictionImagesScroll>
       <CameraContainer>
         <CameraStyled
           ref={cameraRef}
@@ -122,17 +140,19 @@ const AutomationScreen: React.FC<Props> = (props) => {
           flashMode={flashMode}
         />
       </CameraContainer>
-      <InfoText>{infoText}</InfoText>
-      <SwitchLabelContainer>
-        <SwitchLabel
-          label='Flash'
-          value={flashMode === FlashMode.on}
-          onChange={value => setFlashMode(value ? FlashMode.on : FlashMode.off)}
-        />
-      </SwitchLabelContainer>
-      <PlayButton onPress={() => setIsAutomationEnabled(!isAutomationEnabled)}>
-        {isAutomationEnabled ? <PlayButtonIcon name='controller-stop' /> : <PlayButtonIcon name='controller-play' />}
-      </PlayButton>
+      <BottomContainer>
+        <InfoText>{infoText}</InfoText>
+        <SwitchLabelContainer>
+          <SwitchLabel
+            label='Flash'
+            value={flashMode === FlashMode.on}
+            onChange={value => setFlashMode(value ? FlashMode.on : FlashMode.off)}
+          />
+        </SwitchLabelContainer>
+        <PlayButton onPress={() => setIsAutomationEnabled(!isAutomationEnabled)}>
+          {isAutomationEnabled ? <PlayButtonIcon name='controller-stop' /> : <PlayButtonIcon name='controller-play' />}
+        </PlayButton>
+      </BottomContainer>
     </Container>
   )
 }

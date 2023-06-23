@@ -1,6 +1,6 @@
 import * as firebaseDatabase from 'firebase/database'
 import { GeometricFigureDAO } from '../database/dao/geometric-figures'
-import { GeometricFigure, GeometricFigureInfo, GeometricFigureType, NewGeometricFigure } from '../models/geometric-figure'
+import { GeometricFigure, GeometricFigureCategory, GeometricFigureInfo, GeometricFigureType, NewGeometricFigure } from '../models/geometric-figure'
 import { api } from '../utils/api'
 import { Assets } from '../utils/assets'
 
@@ -78,6 +78,41 @@ export namespace GeometricFigureService {
             'triangle': require('../assets/img/shapes/triangle.png')
         }
         return isFailed ? isFailedDict[type] : isNotFailedDict[type]
+    }
+
+    export function getImageFromCategory(category: GeometricFigureCategory) {
+        const geometricFigure = getNewGeometricFigureFromCategory(category)
+        return getImageFromGeometricFigure(geometricFigure)
+    }
+
+    export function getNewGeometricFigureFromCategory(category: GeometricFigureCategory): NewGeometricFigure {
+        const mapping: { [key in GeometricFigureCategory]: NewGeometricFigure } = {
+            'circle': {
+                type: 'circle',
+                isFailed: false,
+            },
+            'square': {
+                type: 'square',
+                isFailed: false,
+            },
+            'triangle': {
+                type: 'triangle',
+                isFailed: false,
+            },
+            'failed-circle': {
+                type: 'circle',
+                isFailed: true,
+            },
+            'failed-square': {
+                type: 'square',
+                isFailed: true,
+            },
+            'failed-triangle': {
+                type: 'triangle',
+                isFailed: true,
+            },
+        }
+        return mapping[category]
     }
 
     export async function deleteGeometricFigure(geometricFigure: GeometricFigure) {

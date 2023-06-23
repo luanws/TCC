@@ -1,5 +1,5 @@
 import { Camera } from "expo-camera"
-import { Dimensions, Text, TouchableOpacity, View } from "react-native"
+import { Dimensions, Image, ScrollView, Text, TouchableOpacity, View } from "react-native"
 import { styled } from "../../hooks/theme"
 
 import { Entypo } from '@expo/vector-icons'
@@ -10,7 +10,6 @@ export const Container = styled(View)`
     flex: 1;
     align-items: center;
     justify-content: center;
-    padding: 32px;
 `
 
 export const CameraStyled = styled(Camera)`
@@ -43,4 +42,26 @@ export const SwitchLabelContainer = styled(View)`
 export const InfoText = styled(Text)`
     color: ${({ theme }) => theme.colors.text1};
     margin-bottom: 8px;
+`
+
+export const PredictionImagesScroll = styled(ScrollView)`
+    flex-grow: 0;
+`
+
+export const PredictionImagesContainer = styled(View)`
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px;
+`
+
+export const PredictionImage = styled(Image)`
+    width: 24px;
+    height: 24px;
+`
+
+export const BottomContainer = styled(View)`
+    margin-bottom: 16px;
+    align-items: center;
+    justify-content: center;
 `
