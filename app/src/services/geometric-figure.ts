@@ -1,4 +1,4 @@
-import { get, getDatabase, ref, set } from 'firebase/database'
+import * as firebaseDatabase from 'firebase/database'
 import { GeometricFigureDAO } from '../database/dao/geometric-figures'
 import { GeometricFigure, GeometricFigureInfo, GeometricFigureType, NewGeometricFigure } from '../models/geometric-figure'
 import { api } from '../utils/api'
@@ -107,24 +107,24 @@ export namespace GeometricFigureService {
 
     export async function saveBackupInFirebaseRTDB() {
         const geometricFigures = await GeometricFigureDAO.getAll()
-        const db = getDatabase()
+        const db = firebaseDatabase.getDatabase()
         const backupName = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
-        const geometricFiguresBackupRef = ref(db, `geometricFiguresBackup/${backupName}`)
-        await set(geometricFiguresBackupRef, geometricFigures)
+        const geometricFiguresBackupRef = firebaseDatabase.ref(db, `geometricFiguresBackup/${backupName}`)
+        await firebaseDatabase.set(geometricFiguresBackupRef, geometricFigures)
     }
 
     export async function getLastBackupName() {
-        const db = getDatabase()
-        const geometricFiguresBackupRef = ref(db, `geometricFiguresBackup`)
-        const geometricFiguresBackup = await get(geometricFiguresBackupRef)
+        const db = firebaseDatabase.getDatabase()
+        const geometricFiguresBackupRef = firebaseDatabase.ref(db, `geometricFiguresBackup`)
+        const geometricFiguresBackup = await firebaseDatabase.get(geometricFiguresBackupRef)
         const backupNames = Object.keys(geometricFiguresBackup.val())
         return backupNames[backupNames.length - 1]
     }
 
     export async function restoreBackupFromFirebaseRTDB(backupName: string) {
-        const db = getDatabase()
-        const geometricFiguresBackupRef = ref(db, `geometricFiguresBackup/${backupName}`)
-        const geometricFigures = await get(geometricFiguresBackupRef)
+        const db = firebaseDatabase.getDatabase()
+        const geometricFiguresBackupRef = firebaseDatabase.ref(db, `geometricFiguresBackup/${backupName}`)
+        const geometricFigures = await firebaseDatabase.get(geometricFiguresBackupRef)
         await GeometricFigureDAO.deleteAllGeometricFigures()
         await GeometricFigureDAO.createMany(geometricFigures.val())
     }
