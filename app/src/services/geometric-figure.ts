@@ -1,6 +1,6 @@
-import { get, getDatabase, ref, set } from 'firebase/database'
+import * as firebaseDatabase from 'firebase/database'
 import { GeometricFigureDAO } from '../database/dao/geometric-figures'
-import { GeometricFigure, GeometricFigureInfo, GeometricFigureType, NewGeometricFigure } from '../models/geometric-figure'
+import { GeometricFigure, GeometricFigureCategory, GeometricFigureInfo, GeometricFigureType, NewGeometricFigure } from '../models/geometric-figure'
 import { api } from '../utils/api'
 import { Assets } from '../utils/assets'
 
@@ -80,6 +80,41 @@ export namespace GeometricFigureService {
         return isFailed ? isFailedDict[type] : isNotFailedDict[type]
     }
 
+    export function getImageFromCategory(category: GeometricFigureCategory) {
+        const geometricFigure = getNewGeometricFigureFromCategory(category)
+        return getImageFromGeometricFigure(geometricFigure)
+    }
+
+    export function getNewGeometricFigureFromCategory(category: GeometricFigureCategory): NewGeometricFigure {
+        const mapping: { [key in GeometricFigureCategory]: NewGeometricFigure } = {
+            'circle': {
+                type: 'circle',
+                isFailed: false,
+            },
+            'square': {
+                type: 'square',
+                isFailed: false,
+            },
+            'triangle': {
+                type: 'triangle',
+                isFailed: false,
+            },
+            'failed-circle': {
+                type: 'circle',
+                isFailed: true,
+            },
+            'failed-square': {
+                type: 'square',
+                isFailed: true,
+            },
+            'failed-triangle': {
+                type: 'triangle',
+                isFailed: true,
+            },
+        }
+        return mapping[category]
+    }
+
     export async function deleteGeometricFigure(geometricFigure: GeometricFigure) {
         await Assets.deleteAssetByFilename(ALBUM_NAME, geometricFigure.filename)
         await GeometricFigureDAO.deleteGeometricFigure(geometricFigure.id)
@@ -107,24 +142,24 @@ export namespace GeometricFigureService {
 
     export async function saveBackupInFirebaseRTDB() {
         const geometricFigures = await GeometricFigureDAO.getAll()
-        const db = getDatabase()
+        const db = firebaseDatabase.getDatabase()
         const backupName = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
-        const geometricFiguresBackupRef = ref(db, `geometricFiguresBackup/${backupName}`)
-        await set(geometricFiguresBackupRef, geometricFigures)
+        const geometricFiguresBackupRef = firebaseDatabase.ref(db, `geometricFiguresBackup/${backupName}`)
+        await firebaseDatabase.set(geometricFiguresBackupRef, geometricFigures)
     }
 
     export async function getLastBackupName() {
-        const db = getDatabase()
-        const geometricFiguresBackupRef = ref(db, `geometricFiguresBackup`)
-        const geometricFiguresBackup = await get(geometricFiguresBackupRef)
+        const db = firebaseDatabase.getDatabase()
+        const geometricFiguresBackupRef = firebaseDatabase.ref(db, `geometricFiguresBackup`)
+        const geometricFiguresBackup = await firebaseDatabase.get(geometricFiguresBackupRef)
         const backupNames = Object.keys(geometricFiguresBackup.val())
         return backupNames[backupNames.length - 1]
     }
 
     export async function restoreBackupFromFirebaseRTDB(backupName: string) {
-        const db = getDatabase()
-        const geometricFiguresBackupRef = ref(db, `geometricFiguresBackup/${backupName}`)
-        const geometricFigures = await get(geometricFiguresBackupRef)
+        const db = firebaseDatabase.getDatabase()
+        const geometricFiguresBackupRef = firebaseDatabase.ref(db, `geometricFiguresBackup/${backupName}`)
+        const geometricFigures = await firebaseDatabase.get(geometricFiguresBackupRef)
         await GeometricFigureDAO.deleteAllGeometricFigures()
         await GeometricFigureDAO.createMany(geometricFigures.val())
     }

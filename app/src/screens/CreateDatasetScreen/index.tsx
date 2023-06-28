@@ -49,29 +49,29 @@ const CreateDatasetScreen: React.FC = () => {
           </SwitchLabelContainer>
           <BottomBarRow>
             <Button
-              image={require('../../assets/img/shapes/square.png')}
+              image={GeometricFigureService.getImageFromCategory('square')}
               onPress={() => handleTakePicture({ type: 'square', isFailed: false })}
             />
             <Button
-              image={require('../../assets/img/shapes/triangle.png')}
+              image={GeometricFigureService.getImageFromCategory('triangle')}
               onPress={() => handleTakePicture({ type: 'triangle', isFailed: false })}
             />
             <Button
-              image={require('../../assets/img/shapes/circle.png')}
+              image={GeometricFigureService.getImageFromCategory('circle')}
               onPress={() => handleTakePicture({ type: 'circle', isFailed: false })}
             />
           </BottomBarRow>
           <BottomBarRow>
             <Button
-              image={require('../../assets/img/shapes/failed-square.png')}
+              image={GeometricFigureService.getImageFromCategory('failed-square')}
               onPress={() => handleTakePicture({ type: 'square', isFailed: true })}
             />
             <Button
-              image={require('../../assets/img/shapes/failed-triangle.png')}
+              image={GeometricFigureService.getImageFromCategory('failed-triangle')}
               onPress={() => handleTakePicture({ type: 'triangle', isFailed: true })}
             />
             <Button
-              image={require('../../assets/img/shapes/failed-circle.png')}
+              image={GeometricFigureService.getImageFromCategory('failed-circle')}
               onPress={() => handleTakePicture({ type: 'circle', isFailed: true })}
             />
           </BottomBarRow>
