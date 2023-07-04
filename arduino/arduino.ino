@@ -87,11 +87,11 @@ void setup() {
 	servoMotor2.attach(OUTPUT_SERVO_MOTOR_2_PIN);
 	servoMotor3.attach(OUTPUT_SERVO_MOTOR_3_PIN);
 
-	digitalWrite(MAIN_MOTOR_ANTICLOCKWISE_PIN, LOW);
+	digitalWrite(MAIN_MOTOR_ANTICLOCKWISE_PIN, HIGH);
 	digitalWrite(MAIN_MOTOR_CLOCKWISE_PIN, LOW);
 }
 
 void loop() {
 	updateServoMotorPositions();
-	updateMainMotorState();
+	// updateMainMotorState();
 }
