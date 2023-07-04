@@ -5,7 +5,9 @@
 			"name": "Arduino",
 			"intelliSenseMode": "gcc-x64",
 			"includePath": [
-				"${workspaceFolder}/**"
+				"${workspaceFolder}/**",
+				"${env:USERPROFILE}/AppData/Local/Arduino15/packages/**",
+				"${env:USERPROFILE}/Documents/Arduino/libraries/**"
 			]
 		}
 	]
